@@ -1,0 +1,32 @@
+services:
+  dev:
+    image: magnetic-wheel-ros2-dev:jazzy
+    container_name: robot_ros2_dev
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        USER_UID: ${ROBOT_UID:-1000}
+        USER_GID: ${ROBOT_GID:-1000}
+    network_mode: host
+    init: true
+    stdin_open: true
+    tty: true
+    # 开发容器没有应用入口；产品的自动启动另行配置，不把 sleep 当作业务就绪。
+    restart: "no"
+    environment:
+      TZ: Asia/Shanghai
+      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-42}
+      ROS_AUTOMATIC_DISCOVERY_RANGE: ${ROS_AUTOMATIC_DISCOVERY_RANGE:-LOCALHOST}
+      RMW_IMPLEMENTATION: rmw_cyclonedds_cpp
+    volumes:
+      - .:/workspace
+      - developer_home:/home/robot
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  developer_home:

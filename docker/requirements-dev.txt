@@ -1,0 +1,4 @@
+# 在独立 venv 中安装，保留系统提供的 rclpy。
+pymavlink==2.4.50
+fastcrc==0.5.0
+pyserial==3.5

@@ -1,0 +1,10 @@
+{
+  "checked_on": "2026-10-14",
+  "platform": "linux/arm64",
+  "upstream": "docker.io/library/ros:jazzy-ros-base-noble",
+  "upstream_index_digest": "sha256:066420e07f60aa18262f2479981def87ebcfcec42eefb0c0c57c4a46098348ca",
+  "arm64_manifest_digest": "sha256:ec00a06df4f573a86e4336c4585940f7f614646ef22675ace1b3e14ee0a82cb3",
+  "image_config_digest": "sha256:c3c5545ce25528f70a63f266924b40c80e95bf8e27c233f4108f4d5fda5c0eb4",
+  "download_reference": "public.ecr.aws/docker/library/ros:jazzy-ros-base-noble@sha256:ec00a06df4f573a86e4336c4585940f7f614646ef22675ace1b3e14ee0a82cb3",
+  "reason": "Orin 直连 Docker Hub 超时；ECR 提供的 ARM64 manifest 内容经 SHA256 校验与官方镜像索引中的对应摘要一致。"
+}

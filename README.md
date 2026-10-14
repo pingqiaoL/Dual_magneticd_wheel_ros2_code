@@ -6,7 +6,7 @@
 
 ## 当前进度
 
-当前提交仅建立开发目录和版本管理，**尚未实现 ROS 节点、MAVLink 收发、测厚仪驱动或视频推流**。
+已建立开发目录和版本管理，完成 **Docker + ROS 2 Jazzy** 开发环境安装，并通过 C++ 编译、C++ 到 Python 的 DDS 消息通信和 MAVLink 2 编解码验证。**机器人 ROS 节点、实机 MAVLink 收发、测厚仪驱动和视频推流尚未实现**。实际过程与验证结果记录在当天开发文档中。
 
 截至 2026-10-14，开发板环境为：
 
@@ -16,10 +16,15 @@
 | 系统 | Ubuntu 20.04.6 LTS / ARM64 |
 | Jetson Linux | R35.6.1，内核 5.10.216-tegra |
 | 开发方式 | Windows VS Code 通过 Remote - SSH 连接 Orin |
-| ROS 2 | 尚未安装，部署方案待确定 |
-| Docker | 尚未安装 |
+| ROS 2 | Jazzy / Ubuntu 24.04 ARM64 容器，基础环境验证通过 |
+| Docker | Engine 26.1.3，Compose 2.27.1，Buildx 0.14.1 |
 
-目标 ROS 版本建议使用 **ROS 2 Humble**。其官方 Ubuntu 二进制包面向 Ubuntu 22.04：可以在确认达妙载板支持后重刷对应 JetPack 6 系统，也可以保留现有系统并使用匹配架构的容器环境。部署方案确定前，不在 Ubuntu 20.04 中直接添加 Ubuntu 22.04 的软件源。
+当前保留宿主机 Ubuntu 20.04 与 JetPack，在容器中运行 ROS 2 Jazzy。选择 Jazzy 是考虑新项目的维护周期：Humble 社区支持至 2027 年 5 月，Jazzy 至 2029 年 5 月。宿主机不添加 Ubuntu 24.04 的软件源，不因容器内使用新用户环境就替换板级驱动。
+
+- [Docker 与 ROS 2 开发环境](docs/Docker与ROS2开发环境.md)
+- [2026-10-14 开发文档](docs/2026-10-14开发文档.md)
+
+当前环境为 CPU 基础开发环境。GPU、视频和实际外设接入后需要另行验证与 JetPack 的兼容性。
 
 ## 开发目录
 
@@ -33,15 +38,19 @@ Orin 上的工程路径为：
 
 ```text
 robot_ros2/
-├── src/                # 后续放置 ROS 2 软件包
+├── .devcontainer/      # VS Code 开发容器入口
+├── docker/             # 容器镜像、依赖与环境脚本
+├── src/                # 后续放置机器人 ROS 2 软件包
 ├── docs/               # 通信约定、接线说明和开发记录
 ├── tools/              # 后续放置开发与联调工具
 ├── .gitattributes      # 文本换行规则
 ├── .gitignore          # 排除编译产物、采集数据和本机配置
+├── compose.yaml        # 开发容器配置
+├── AGENTS.md           # 开发与每日文档约定
 └── README.md           # 中文项目说明
 ```
 
-`src`、`docs`、`tools` 目前仅包含保留目录用的 `.gitkeep` 文件。
+`src` 暂无机器人 ROS 包；`docs` 与 `tools` 已增加环境说明、每日开发记录和环境配置工具。
 
 ## 软件职责
 
@@ -110,7 +119,7 @@ git push origin main
 git pull --ff-only origin main
 ```
 
-ROS 安装且实际软件包创建后，再补充经过验证的 `colcon build`、启动和测试命令。当前空工作空间不作为功能验收结果。
+进入开发容器与验证的操作见环境文档。环境验证使用临时测试包完成真实编译和消息收发，不会把测试节点作为机器人业务包留在 `src` 中；当前空业务工作空间不作为机器人功能验收结果。
 
 ## 版本管理约定
 
@@ -122,6 +131,6 @@ ROS 安装且实际软件包创建后，再补充经过验证的 `colcon build`�
 
 ## 参考资料
 
-- [ROS 2 Humble 官方安装说明](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html)
+- [ROS 2 Jazzy 官方文档](https://docs.ros.org/en/jazzy/)
 - [MAVLink 官方文档](https://mavlink.io/en/)
 - [NVIDIA Jetson Linux 文档](https://docs.nvidia.com/jetson/)
