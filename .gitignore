@@ -1,0 +1,37 @@
+# colcon build output
+/build/
+/install/
+/log/
+
+# Local Python environments and caches
+/.venv/
+/venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local secrets and machine configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+/.ssh/
+/config/local/
+
+# Measurements, ROS bags and recorded video
+/data/
+/recordings/
+*.bag
+*.db3
+*.mcap
+*.mp4
+*.avi
+*.mkv
+
+# Editor and OS temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
