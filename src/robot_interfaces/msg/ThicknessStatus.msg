@@ -1,0 +1,16 @@
+uint8 DISCONNECTED=0
+uint8 CONNECTING=1
+uint8 ONLINE=2
+uint8 STALE=3
+builtin_interfaces/Time stamp
+uint8 connection_state
+bool port_open
+bool communication_ready
+uint8[12] device_sn
+# 尚未收到对应报文时为UINT32_MAX；均按Orin本地单调时钟计算。
+uint32 last_response_age_ms
+uint32 last_measurement_age_ms
+uint64 valid_frames
+uint64 crc_errors
+uint64 io_errors
+string<=160 last_error

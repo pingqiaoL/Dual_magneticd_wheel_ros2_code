@@ -9,6 +9,9 @@ services:
         USER_UID: ${ROBOT_UID:-1000}
         USER_GID: ${ROBOT_GID:-1000}
     network_mode: host
+    devices:
+      - /dev/video0:/dev/video0
+      - /dev/ttyACM0:/dev/ttyACM0
     init: true
     stdin_open: true
     tty: true

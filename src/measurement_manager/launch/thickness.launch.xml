@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- 命令行通过 device:=... 和 baud_rate:=... 覆盖默认值。 -->
+  <arg name="device" default="/dev/ttyACM0"
+       description="容器内测厚仪的 USB CDC 设备路径" />
+  <arg name="baud_rate" default="115200"
+       description="CDC 线路编码的波特率，不是 USB 总线速率" />
+
+  <!-- 采集节点：打开设备，解析协议，发布读数和通信状态。 -->
+  <node pkg="thickness_usb_driver" exec="thickness_node"
+        name="thickness_node" output="screen">
+    <param name="device" value="$(var device)" />
+    <param name="baud_rate" value="$(var baud_rate)" />
+  </node>
+
+  <!-- 处理节点：本文件仅启动进程，订阅回调的打印逻辑在 C++ 中实现。 -->
+  <node pkg="measurement_manager" exec="measurement_manager_node"
+        name="measurement_manager_node" output="screen" />
+</launch>

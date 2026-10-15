@@ -97,3 +97,84 @@ bash tools/dev.sh down
 当前容器的默认命令是 `sleep infinity`，用于开发终端，重启策略是 `no`。Docker 服务可以随主机启动，但这不表示已经配置了机器人业务自启动。
 
 后续真实应用节点创建完成后，再增加独立部署配置、明确的 `ros2 launch` 入口、设备等待与重连、退出行为、日志、健康检测和自动重启策略，并验证上电行为。不要把一个正在运行的空容器标记为机器人已就绪。
+
+## 七、日常开发流程
+
+### 1. 打开项目并进入容器
+
+Windows VS Code 通过 Remote - SSH 连接 `orin-nano`，打开 `/home/nvidia/robot_ros2`，再从命令面板执行 `Dev Containers: Reopen in Container`。Windows 不需要安装 Docker Desktop；实际使用的是 Orin 的 Docker。
+
+在 VS Code 新建终端，检查：
+
+```bash
+pwd
+whoami
+echo "$ROS_DISTRO"
+```
+
+预期分别为 `/workspace`、`robot`、`jazzy`。容器中的 `/workspace/src` 与宿主机 `/home/nvidia/robot_ros2/src` 是同一份文件。
+
+若编辑器仍停留在宿主机，可先用命令行开发：
+
+```bash
+cd ~/robot_ros2
+bash tools/dev.sh up
+bash tools/dev.sh shell
+```
+
+若提示无法访问 Docker，而新 SSH 终端可以访问，可能是 VS Code Server 保留了旧的用户组。保存工作后执行 `Remote-SSH: Kill VS Code Server on Host...`，再重新连接。
+
+### 2. 先运行现有 ROS 示例
+
+在两个容器终端分别执行以下命令。VS Code 已进入容器时，直接新建第二个终端即可；普通 SSH 终端则各执行一次 `bash tools/dev.sh shell`。
+
+终端一：
+
+```bash
+ros2 run demo_nodes_cpp talker
+```
+
+终端二：
+
+```bash
+ros2 run demo_nodes_py listener
+```
+
+发布者连续发送消息，订阅者显示收到的消息。按 Ctrl+C 分别停止。这是现成的 ROS 示例，不是机器人 MAVLink 节点。
+
+### 3. 编译自己的代码
+
+当前 `src` 仅有占位文件。后续创建 ROS 包后，在容器里执行：
+
+```bash
+cd /workspace
+colcon build --symlink-install
+source install/setup.bash
+```
+
+随后使用对应包的 `ros2 run` 或 `ros2 launch` 入口启动。`--symlink-install` 有助于 Python 源码和资源的开发，但不会自动重新编译 C++；C++ 修改后仍要执行编译。
+
+| 改动 | 操作 |
+| --- | --- |
+| ROS 包的 C++ 源码 | colcon 编译，重启节点 |
+| Python 源码或配置 | 按包安装方式决定是否需编译，重启节点加载修改 |
+| Dockerfile 或容器依赖 | 在宿主机执行 `bash tools/dev.sh build`，然后 `bash tools/dev.sh up`；或在 VS Code 执行 Rebuild Container |
+| 只关闭终端后继续开发 | 重新打开终端，不必重新构建镜像 |
+| Orin 重新上电 | 宿主机执行 `bash tools/dev.sh up`，再进入容器 |
+
+### 4. 保存、Git 和退出
+
+编译、运行在容器终端执行；当前 Git 提交和推送在 Orin 宿主机终端执行。原因是仓库的 SSH 配置使用宿主机 `/home/nvidia/.ssh/robot_ros2_github`，该私钥未挂入容器。
+
+宿主机示例：
+
+```bash
+cd ~/robot_ros2
+git status
+```
+
+确认本次改动后再按文件选择暂存、提交和推送。不要将私钥复制到镜像中。
+
+`exit` 只退出当前容器 shell；Ctrl+C 停止前台节点。需要停止开发容器时，在宿主机执行 `bash tools/dev.sh down`，宿主机源码仍保留。容器中未写入挂载目录的临时改动可能随容器重建丢失，因此项目源码放在 `/workspace`，环境依赖写进 Dockerfile 或依赖文件。
+
+参考：[VS Code 在远程 Docker 主机开发](https://code.visualstudio.com/remote/advancedcontainers/develop-remote-host)、[Dev Containers 使用说明](https://code.visualstudio.com/docs/devcontainers/containers)。

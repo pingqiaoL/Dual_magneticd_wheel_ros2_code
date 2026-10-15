@@ -1,0 +1,12 @@
+# 帧长度、帧尾和载荷CRC校验通过后的原始测量值，不代表计量精度已验收。
+uint8 UNIT_UNKNOWN=0
+uint8 UNIT_UM=1
+builtin_interfaces/Time received_at
+# Orin节点内的测量帧计数；节点重启后清零，不是仪器原生序号。
+uint64 sequence
+uint8[12] device_sn
+float32 value
+uint8 unit
+# 材料码含义尚待厂家确认，直接保留原码。
+uint8 material_raw
+bool finite

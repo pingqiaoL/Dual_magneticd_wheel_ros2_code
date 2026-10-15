@@ -1,136 +1,160 @@
 # 双磁轮检测机器人 ROS 2 上位机
 
-本仓库用于开发运行在 **NVIDIA Jetson Orin Nano + 达妙载板** 上的机器人上位机软件，主要负责与 STM32 下位机通信、测厚仪数据采集、视频处理和任务管理。
+本仓库在Jetson Orin Nano + 达妙载板上开发。当前先完成USB测厚仪读取与终端观察，后续逐项接入参数管理、上下位机通信、数传和视频。
 
-下位机固件独立维护：[Dual_magnetic_wheel-robot](https://github.com/pingqiaoL/Dual_magnetic_wheel-robot)。
+下位机固件独立维护：[Dual_magnetic_wheel-robot](https://github.com/pingqiaoL/Dual_magnetic_wheel-robot)。MK32界面独立开发。上下位机目标仍为XRCE-DDS Client/Agent，本轮未实现。
 
 ## 当前进度
 
-已建立开发目录和版本管理，完成 **Docker + ROS 2 Jazzy** 开发环境安装，并通过 C++ 编译、C++ 到 Python 的 DDS 消息通信和 MAVLink 2 编解码验证。**机器人 ROS 节点、实机 MAVLink 收发、测厚仪驱动和视频推流尚未实现**。实际过程与验证结果记录在当天开发文档中。
+截至2026-10-15，本轮简化已完成：
 
-截至 2026-10-14，开发板环境为：
+- 三个包重新构建通过；只保留采集、订阅打印两个节点及两个消息结构。
+- 已删除旧bringup、测量门控、滤波、CSV、业务服务和多余MCU消息；原协议库、端口库及字节环形缓冲保留。
+- XML launch已按包安装；宿主机read_thickness.sh已验证参数透传、重复运行保护、SIGINT/SIGTERM退出清理。
+- 两项底层CTest通过；实际宿主机脚本 + XML + C++节点配合PTY模拟仪器，8条测量/NaN打印、坏CRC丢弃、重连恢复均通过。
+- 真实USB只读检查识别CT260918B002并显示“通信正常，等待测量上报”；本轮15秒内真实厚度0条，不代表测厚精度已验收。当前单位固定unknown。
+- 统一参数系统、真实上下位机XRCE-DDS、数传、视频、自启动均未实现。没有提交或推送Git。
 
-| 项目 | 当前状态 |
-| --- | --- |
-| 硬件 | Jetson Orin Nano，达妙载板 |
-| 系统 | Ubuntu 20.04.6 LTS / ARM64 |
-| Jetson Linux | R35.6.1，内核 5.10.216-tegra |
-| 开发方式 | Windows VS Code 通过 Remote - SSH 连接 Orin |
-| ROS 2 | Jazzy / Ubuntu 24.04 ARM64 容器，基础环境验证通过 |
-| Docker | Engine 26.1.3，Compose 2.27.1，Buildx 0.14.1 |
+## 启动读取
 
-当前保留宿主机 Ubuntu 20.04 与 JetPack，在容器中运行 ROS 2 Jazzy。选择 Jazzy 是考虑新项目的维护周期：Humble 社区支持至 2027 年 5 月，Jazzy 至 2029 年 5 月。宿主机不添加 Ubuntu 24.04 的软件源，不因容器内使用新用户环境就替换板级驱动。
-
-- [Docker 与 ROS 2 开发环境](docs/Docker与ROS2开发环境.md)
-- [2026-10-14 开发文档](docs/2026-10-14开发文档.md)
-
-当前环境为 CPU 基础开发环境。GPU、视频和实际外设接入后需要另行验证与 JetPack 的兼容性。
-
-## 开发目录
-
-Orin 上的工程路径为：
-
-```text
-/home/nvidia/robot_ros2
-```
-
-该目录同时作为 Git 仓库和后续的 colcon 工作空间：
-
-```text
-robot_ros2/
-├── .devcontainer/      # VS Code 开发容器入口
-├── docker/             # 容器镜像、依赖与环境脚本
-├── src/                # 后续放置机器人 ROS 2 软件包
-├── docs/               # 通信约定、接线说明和开发记录
-├── tools/              # 后续放置开发与联调工具
-├── .gitattributes      # 文本换行规则
-├── .gitignore          # 排除编译产物、采集数据和本机配置
-├── compose.yaml        # 开发容器配置
-├── AGENTS.md           # 开发与每日文档约定
-└── README.md           # 中文项目说明
-```
-
-`src` 暂无机器人 ROS 包；`docs` 与 `tools` 已增加环境说明、每日开发记录和环境配置工具。
-
-## 软件职责
-
-| 层次 | 计划职责 |
-| --- | --- |
-| ROS 2 上位机 | MAVLink 适配、测厚采集、测量任务、状态汇总、数据记录和视频处理 |
-| STM32 / NuttX 下位机 | 遥控解析、解锁互锁、失效保护、控制分配、电机与执行机构控制 |
-| MK32 地面端 | 显示视频和测厚结果、发送操作请求 |
-
-计划中的数据路径：
-
-```text
-MK32 遥控 → 天空端 SBUS → 下位机 → 电机与执行机构
-Orin ROS 2 ↔ UART / MAVLink ↔ 下位机
-USB 测厚仪 → Orin → 天空端数传 → MK32 界面
-USB 摄像头 → Orin → 网络视频 → 天空端 LAN → MK32
-```
-
-以上为目标架构，不代表通信协议、驱动和接口已经实现。串口设备名、引脚、电平与波特率需要实机核对，不根据接口编号直接推定。
-
-## 第一阶段：MAVLink 基础通信
-
-先开发 `cboard_mavlink_bridge`，建立上位机与下位机之间可观测、可恢复的通信链路：
-
-1. 确认 ROS 环境和实际串口，核对接线及端口占用。
-2. 两端接入同一消息定义版本的 MAVLink 库。
-3. 完成 `HEARTBEAT` 收发和目标设备识别。
-4. 完成链路超时、断线重连及收发计数。
-5. 使用 `PING` 验证双向收发，再增加状态遥测与命令应答。
-
-现有下位机固件仍需增加 MAVLink 通信模块，仅创建上位机仓库不能直接完成硬件通信。初期优先使用标准消息；自定义消息增加前，应记录消息 ID、字段类型、单位、频率和协议版本。
-
-心跳表示通信组件在线，不直接等于机器人初始化完成或允许解锁。上位机通信不绕过下位机的 SA 互锁和公共输出安全检查。
-
-后续按需要增加的 ROS 包：
-
-- `robot_interfaces`：自定义消息、服务与动作接口。
-- `robot_bringup`：启动文件与参数配置。
-- 测厚仪采集、测量任务管理、状态汇总及数据记录等功能包。
-
-上述软件包目前尚未创建。
-
-## 日常开发
-
-连接 Orin 后，在 VS Code 中打开 `/home/nvidia/robot_ros2`。文件编辑、终端命令、后续编译和运行均发生在 Orin 上。
-
-查看修改：
+在Orin宿主机SSH或NoMachine终端执行：
 
 ```bash
-cd ~/robot_ros2
-git status
-git diff
+bash /home/nvidia/robot_ros2/tools/read_thickness.sh device:=/dev/ttyACM0 baud_rate:=115200
 ```
 
-提交并推送：
+如果终端提示符是robot@ubuntu:/workspace，表示已在容器内，执行：
 
 ```bash
-git add README.md src docs tools .gitignore .gitattributes
-git commit -m "说明本次修改内容"
-git push origin main
+bash /workspace/tools/read_thickness.sh device:=/dev/ttyACM0 baud_rate:=115200
 ```
 
-在工作区干净时获取远端更新：
+脚本自动识别环境，容器内不会调用Docker；宿主机才复用或启动dev容器。
 
-```bash
-git pull --ff-only origin main
+本轮已编译，无需重新编译即可读取；Ctrl+C退出本次两个节点，开发容器保留。设备路径是容器内路径；不要同时运行其他程序读取同一端口。查看帮助使用脚本的--help。
+
+宿主机Ubuntu20.04.6 / Jetson Linux R35.6.1，开发容器为Ubuntu24.04 / ROS2 Jazzy ARM64，默认DDS域42、CycloneDDS、LOCALHOST。宿主机工程与容器/workspace为同一挂载文件，不在宿主机安装另一套Jazzy软件源。
+
+## 当前代码树
+
+此树区分现有文件和末尾的后续规划，不将已删除的旧功能继续标为当前实现。
+
+<!-- ARCHITECTURE_TREE_START -->
+```text
+robot_ros2/                                    # Orin宿主机 /home/nvidia/robot_ros2；容器 /workspace
+├── src/                                     # 当前只有以下三个ROS包
+│   ├── robot_interfaces/                    # [已构建] 两个消息结构，无独立节点
+│   │   ├── CMakeLists.txt                    # 生成消息的C++/Python类型支持
+│   │   ├── package.xml                       # 消息生成依赖
+│   │   └── msg/
+│   │       ├── ThicknessReading.msg           # 原始读数、时间、序号、SN、单位、材料原码
+│   │       └── ThicknessStatus.msg            # 端口、通信、报文年龄与错误统计
+│   ├── thickness_usb_driver/                # [已构建] USB采集与协议解析
+│   │   ├── CMakeLists.txt                    # 底层库、采集节点和两项测试
+│   │   ├── package.xml                       # rclcpp、启动参数描述、消息依赖
+│   │   ├── include/thickness_usb_driver/
+│   │   │   ├── UsbCdcPort.hpp                 # Linux端口配置、打开、限时读写
+│   │   │   ├── ByteRingBuffer.hpp             # 有界字节环形缓冲，辅助组帧
+│   │   │   ├── ThicknessProtocol.hpp          # 协议帧、CRC和字段解析接口
+│   │   │   └── ThicknessNode.hpp              # 采集节点声明和固定通信时序
+│   │   ├── module/                          # 普通C++功能实现，不是ROS节点
+│   │   │   ├── UsbCdcPort.cpp                 # open/termios/poll/read/write和RAII
+│   │   │   └── ThicknessProtocol.cpp          # 半帧/多帧、CRC、只读请求与解码
+│   │   ├── src/ThicknessNode.cpp             # 节点：连接、心跳、重连、发布；底部main
+│   │   └── test/
+│   │       ├── ProtocolFixtures.hpp           # 已知协议报文与测试构帧
+│   │       ├── test_thickness_protocol.cpp    # 分帧、CRC、异常值与恢复
+│   │       └── test_usb_port.cpp              # Linux伪终端、超时、回压、断开
+│   └── measurement_manager/                 # [已构建] 当前只订阅打印，不含业务门控或滤波
+│       ├── CMakeLists.txt                    # 编译打印节点，安装XML launch
+│       ├── package.xml                       # ROS消息、采集包、XML启动运行依赖
+│       ├── include/measurement_manager/
+│       │   └── MeasurementManagerNode.hpp     # 两个订阅器和私有打印函数
+│       ├── src/MeasurementManagerNode.cpp     # 读数逐条打印，状态变化时提示；底部main
+│       └── launch/thickness.launch.xml        # [已安装/验证] 两节点及device/baud_rate启动参数
+├── tools/
+│   ├── read_thickness.sh                    # [已验证] 宿主机/容器自适应启动、传参和退出清理
+│   ├── dev.sh                               # 既有容器构建、进入与执行辅助工具
+│   ├── install_docker_host.sh               # 既有宿主机Docker安装脚本
+│   ├── install_user_buildx.py                # 既有Buildx工具
+│   └── verify_dev_environment.py             # 历史环境检查，不是当前MCU链路实现
+├── docker/                                  # 既有Jazzy镜像、入口与环境文件
+│   ├── Dockerfile
+│   ├── base-image.lock.json
+│   ├── requirements-dev.txt
+│   ├── entrypoint.sh
+│   └── ros_env.sh
+├── .devcontainer/devcontainer.json          # 既有VS Code容器入口
+├── .vscode/settings.json                     # 既有编辑器设置
+├── test/                                    # 既有独立USB协议工具，不是ROS包
+│   ├── README.md / .gitignore
+│   ├── usb_protocol_lab.py / raw_capture.py
+│   ├── vendor_probe.py / vendor_readonly.py
+│   ├── verify_received.py
+│   └── results/                             # 历史实测数据，忽略Git
+├── docs/
+│   ├── 2026-10-15开发文档.md                  # 历史实现、分步调整、最终清理和验证记录
+│   ├── 测厚节点使用说明.md                    # 当前构建、脚本、输出与数据边界
+│   ├── 上位机代码目录框架.md                  # 与README同步的树
+│   ├── 上位机节点通信图.md                    # 当前发布/订阅与启动关系
+│   ├── 参数管理设计.md                        # 后续规划；当前仅有两个启动选项
+│   ├── 上下位机XRCE-DDS可行性.md              # 后续链路与资源验证计划
+│   ├── 摄像头与测厚仪接入说明.md              # 接入与历史排查说明
+│   ├── Docker与ROS2开发环境.md                # 既有环境说明
+│   └── 2026-10-14开发文档.md                  # 历史记录保留
+├── log/                                     # 构建日志、测试报告、修改前备份；忽略Git
+├── build/ / install/                         # 生成物；旧bringup生成物已清理
+├── data/                                    # 原有数据保留；当前节点不写CSV
+├── compose.yaml                             # 既有开发容器和USB映射
+├── AGENTS.md                                # 开发与文档规则
+├── .dockerignore / .gitignore / .gitattributes
+└── README.md
+
+后续规划，当前未创建/未运行：
+  robot_config_manager          # 参数统一查询、校验、保存与可视化入口
+  cboard_dds_bridge              # XRCE Agent集成和真实MCU状态接入
+  measurement_status_transmission # 独立地面数传节点
+  video_streamer_transmission   # 视频采集、编码和网络传输
+  测厚滤波/记录/就绪门控         # 本轮已撤回，待逐项重新实现
+```
+<!-- ARCHITECTURE_TREE_END -->
+
+## 当前通信关系
+
+```mermaid
+flowchart LR
+    USB["USB测厚仪"] <-->|"USB CDC<br/>广播、心跳、只读状态查询 / 测量上报"| DRIVER["thickness_node<br/>打开、重连、组帧、CRC、解析"]
+    DRIVER -->|"/thickness/reading<br/>ThicknessReading"| PRINT["measurement_manager_node<br/>两个订阅回调"]
+    DRIVER -->|"/thickness/status<br/>ThicknessStatus"| PRINT
+    PRINT -->|"每条读数；状态变化提示"| TERMINAL["SSH / NoMachine终端"]
 ```
 
-进入开发容器与验证的操作见环境文档。环境验证使用临时测试包完成真实编译和消息收发，不会把测试节点作为机器人业务包留在 `src` 中；当前空业务工作空间不作为机器人功能验收结果。
+```mermaid
+flowchart LR
+    SH["tools/read_thickness.sh<br/>自动识别环境"] -->|"宿主机：复用/启动dev"| DOCKER["Docker开发环境"]
+    SH -->|"容器内：直接执行"| ENV
+    DOCKER --> ENV["robot-entrypoint<br/>加载ROS和install环境"]
+    ENV --> XML["measurement_manager<br/>thickness.launch.xml"]
+    XML -->|"device / baud_rate"| DRIVER["thickness_node"]
+    XML --> PRINT["measurement_manager_node"]
+```
 
-## 版本管理约定
+当前只有两条测厚话题，没有/measurement/sample、/measurement/state、测量启停服务或MCU消息订阅。两个消息定义由robot_interfaces生成；measurement_manager当前仅打印，名称保留便于以后逐步扩展。
 
-- `main` 保存经过检查的代码；较大功能可在独立功能分支开发。
-- 不提交 `build/`、`install/`、`log/` 等生成目录。
-- 测厚采集数据、rosbag 和录制视频保存在忽略的 `data/`、`recordings/` 等目录中。
-- 不提交密码、访问令牌、SSH 私钥或设备本机配置。
-- 重刷系统前，将必要修改提交并推送到 GitHub，另外备份未纳入版本管理的数据。
+## 开发与后续
 
-## 参考资料
+节点.cpp在各包src，普通实现.cpp在module，头文件在include/<包名>，main在对应节点文件底部。本轮按已审批方案完成剩余清理和安装；后续继续逐文件说明和修改。框架发生结构变化时先给出候选方案，经用户审批后同步README、架构文档、通信图和开发记录。
 
-- [ROS 2 Jazzy 官方文档](https://docs.ros.org/en/jazzy/)
-- [MAVLink 官方文档](https://mavlink.io/en/)
-- [NVIDIA Jetson Linux 文档](https://docs.nvidia.com/jetson/)
+独立参数统一入口、滤波/记录、真实MCU链路、地面数传、视频和产品自启动后续实现。当前脚本是人工调试启动入口，不是开机自启动部署。
+
+源码与文档尚未提交/推送；build、install、log、采集数据和凭据不提交Git，原有历史记录与备份保留。
+
+## 文档
+
+- [测厚节点使用说明](docs/测厚节点使用说明.md)
+- [代码目录框架](docs/上位机代码目录框架.md)
+- [节点通信图](docs/上位机节点通信图.md)
+- [参数管理后续规划](docs/参数管理设计.md)
+- [2026-10-15开发记录](docs/2026-10-15开发文档.md)
+- [Docker与ROS2开发环境](docs/Docker与ROS2开发环境.md)
+- [上下位机XRCE-DDS可行性](docs/上下位机XRCE-DDS可行性.md)
