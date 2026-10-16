@@ -7,7 +7,7 @@ cd "${project_root}"
 if [[ ${1:-} == --help || ${1:-} == -h ]]; then
   cat <<'HELP'
 用法（Orin宿主机或开发容器内均可）：
-  bash tools/read_thickness.sh [device:=/dev/ttyACM0] [baud_rate:=115200]
+  bash tools/read_thickness.sh [device_path:=/dev/ttyACM0] [baud_rate:=115200]
 
 脚本自动识别环境：宿主机复用/启动开发容器，容器内直接运行XML launch。
 每收到有效测量帧打印一条原始读数；单位暂为unknown。Ctrl+C退出。
@@ -19,7 +19,7 @@ fi
 # 只接受本阶段的两个启动选项，使用数组原样传递，不拼接执行命令。
 for argument in "$@"; do
   case "${argument}" in
-    device:=/*) ;;
+    device_path:=/*) ;;
     baud_rate:=9600|baud_rate:=19200|baud_rate:=38400|baud_rate:=57600|\
     baud_rate:=115200|baud_rate:=230400|baud_rate:=460800|baud_rate:=921600) ;;
     *) echo "不支持的启动选项：${argument}。使用 --help 查看用法。" >&2; exit 2 ;;

@@ -1,50 +1,35 @@
 #pragma once
 
-#include "thickness_usb_driver/ThicknessProtocol.hpp"
-#include "thickness_usb_driver/UsbCdcPort.hpp"
+#include "thickness_usb_driver/ThicknessDevice.hpp"
+
 #include <rclcpp/rclcpp.hpp>
 #include <robot_interfaces/msg/thickness_reading.hpp>
 #include <robot_interfaces/msg/thickness_status.hpp>
-#include <array>
-#include <chrono>
+
 #include <cstdint>
 #include <memory>
-#include <string>
 #include <vector>
 
-// 采集节点只负责USB收发、协议解析和发布；端口始终由同一个线程访问。
+/** ROS 2 应用适配层：参数、调度、普通 C++ 数据与 ROS 消息之间的转换。 */
 class ThicknessNode final : public rclcpp::Node
 {
-public:
+  public:
     ThicknessNode();
 
-private:
-    using Clock = std::chrono::steady_clock;
+  private:
+    static constexpr int DEVICE_PROCESSING_PERIOD_MS = 10;
+    static constexpr int STATUS_PUBLISH_PERIOD_MS = 500;
 
-    // 当前先使用固定通信时序，不引入动态参数更新系统。
-    static constexpr int HeartbeatPeriodMs = 1000;
-    static constexpr int OnlineTimeoutMs = 3000;
-    static constexpr int ReconnectIntervalMs = 1000;
-    static constexpr int StateQueryPeriodMs = 5000;
-    static constexpr int WriteTimeoutMs = 20;
+    void process_device_io();
+    void publish_measurement(const DecodedMeasurement &measurement);
+    void publish_status();
 
-    static std::uint32_t ageMs(Clock::time_point now, Clock::time_point then);
-    void tick();
-    bool send(const std::vector<std::uint8_t> &bytes);
-    void receive(const ThicknessFrame &frame);
-    void publishStatus();
-    void disconnect(const std::string &reason);
+    std::unique_ptr<ThicknessDevice> _device;
+    std::vector<DecodedMeasurement> _measurements;
+    std::uint64_t _measurement_sequence{0};
 
-    std::unique_ptr<UsbCdcPort> _port;
-    ThicknessProtocol _protocol;
-    std::array<std::uint8_t, 12> _requestSn{}, _deviceSn{};
-    bool _identityKnown{false};
-    std::uint64_t _sequence{0}, _ioErrors{0};
-    std::string _lastError;
-    Clock::time_point _nextOpen{}, _lastResponse{}, _lastMeasurement{};
-    Clock::time_point _lastHeartbeat{}, _lastDiscovery{}, _lastQuery{}, _lastStatus{};
-
-    rclcpp::Publisher<robot_interfaces::msg::ThicknessReading>::SharedPtr _readingPublisher;
-    rclcpp::Publisher<robot_interfaces::msg::ThicknessStatus>::SharedPtr _statusPublisher;
-    rclcpp::TimerBase::SharedPtr _timer;
+    rclcpp::Publisher<robot_interfaces::msg::ThicknessReading>::SharedPtr _reading_publisher;
+    rclcpp::Publisher<robot_interfaces::msg::ThicknessStatus>::SharedPtr _status_publisher;
+    rclcpp::TimerBase::SharedPtr _device_processing_timer;
+    rclcpp::TimerBase::SharedPtr _status_publish_timer;
 };

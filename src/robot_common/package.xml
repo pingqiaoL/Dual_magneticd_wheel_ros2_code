@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>robot_common</name>
+  <version>0.1.0</version>
+  <description>机器人上位机共享的时钟、数学、缓冲区与Linux串口基础工具</description>
+  <maintainer email="a46581807@gmail.com">robot</maintainer>
+  <license>TODO: License declaration</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -10,18 +10,18 @@
 // 当前阶段只订阅并打印，不进行滤波、门控、记录或再次转发。
 class MeasurementManagerNode final : public rclcpp::Node
 {
-public:
+  public:
     MeasurementManagerNode();
 
-private:
-    void onReading(const robot_interfaces::msg::ThicknessReading &reading);
-    void onStatus(const robot_interfaces::msg::ThicknessStatus &status);
-    static std::string serialText(const std::array<std::uint8_t, 12> &serial);
-    static const char *unitName(std::uint8_t unit);
-    static const char *statusName(const robot_interfaces::msg::ThicknessStatus &status);
+  private:
+    void on_reading(const robot_interfaces::msg::ThicknessReading &reading);
+    void on_status(const robot_interfaces::msg::ThicknessStatus &status);
+    static std::string serial_number_to_text(const std::array<std::uint8_t, 12> &serial_number);
+    static const char *unit_name(std::uint8_t unit);
+    static const char *status_description(const robot_interfaces::msg::ThicknessStatus &status);
 
-    bool _haveStatus{false};
-    robot_interfaces::msg::ThicknessStatus _lastStatus;
-    rclcpp::Subscription<robot_interfaces::msg::ThicknessReading>::SharedPtr _readingSubscription;
-    rclcpp::Subscription<robot_interfaces::msg::ThicknessStatus>::SharedPtr _statusSubscription;
+    bool _has_status{false};
+    robot_interfaces::msg::ThicknessStatus _last_status;
+    rclcpp::Subscription<robot_interfaces::msg::ThicknessReading>::SharedPtr _reading_subscription;
+    rclcpp::Subscription<robot_interfaces::msg::ThicknessStatus>::SharedPtr _status_subscription;
 };
