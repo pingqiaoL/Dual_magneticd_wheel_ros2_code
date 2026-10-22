@@ -12,6 +12,8 @@ services:
     devices:
       - /dev/video0:/dev/video0
       - /dev/ttyACM0:/dev/ttyACM0
+      # 达妙载板串口1：模组 TX203/RX205，对应当前镜像 ttyTHS0。
+      - /dev/ttyTHS0:/dev/ttyTHS0
     init: true
     stdin_open: true
     tty: true
@@ -19,12 +21,15 @@ services:
     restart: "no"
     environment:
       TZ: Asia/Shanghai
+      DISPLAY: "${DISPLAY:-:1}"
+      QT_X11_NO_MITSHM: "1"
       ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-42}
       ROS_AUTOMATIC_DISCOVERY_RANGE: ${ROS_AUTOMATIC_DISCOVERY_RANGE:-LOCALHOST}
       RMW_IMPLEMENTATION: rmw_cyclonedds_cpp
     volumes:
       - .:/workspace
       - developer_home:/home/robot
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
     logging:
       driver: json-file
       options:

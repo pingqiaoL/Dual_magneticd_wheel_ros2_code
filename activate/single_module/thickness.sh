@@ -1,27 +1,47 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 cd "${project_root}"
 
 if [[ ${1:-} == --help || ${1:-} == -h ]]; then
   cat <<'HELP'
 用法（Orin宿主机或开发容器内均可）：
-  bash tools/read_thickness.sh [device_path:=/dev/ttyACM0] [baud_rate:=115200]
+  bash activate/single_module/thickness.sh [thickness_device_path:=/dev/ttyACM0] [thickness_baud_rate:=115200]
+    [telemetry_enabled:=true] [telemetry_device_path:=/dev/ttyTHS0]
+    [telemetry_baud_rate:=115200]
 
 脚本自动识别环境：宿主机复用/启动开发容器，容器内直接运行XML launch。
-每收到有效测量帧打印一条原始读数；单位暂为unknown。Ctrl+C退出。
+每收到有效测量帧打印一条读数；单位统一为 um。Ctrl+C退出。
+manager 默认开启结果发布；下位机状态回调仅预留，尚未订阅。
+停止本次测厚使用 Ctrl+C；当前没有测厚启停服务。
+数传设备须已映射到容器，测厚读数按 um 上传。
 修改C++或消息后需先编译；脚本不会每次启动都重新编译。
 HELP
   exit 0
 fi
 
-# 只接受本阶段的两个启动选项，使用数组原样传递，不拼接执行命令。
+launch_arguments=(telemetry_enabled:=true)
+for argument in "$@"; do
+  case "${argument}" in
+    thickness_device_path:=*|thickness_baud_rate:=*) launch_arguments+=("${argument#thickness_}") ;;
+    telemetry_*) launch_arguments+=("${argument}") ;;
+    *) echo "不支持的参数: ${argument}；使用 --help 查看用法。" >&2; exit 2 ;;
+  esac
+done
+set -- "${launch_arguments[@]}"
+
+# 接受显式列出的启动选项，使用数组原样传递，不拼接执行命令。
 for argument in "$@"; do
   case "${argument}" in
     device_path:=/*) ;;
+    telemetry_device_path:=/*) ;;
+    telemetry_enabled:=true|telemetry_enabled:=false) ;;
     baud_rate:=9600|baud_rate:=19200|baud_rate:=38400|baud_rate:=57600|\
     baud_rate:=115200|baud_rate:=230400|baud_rate:=460800|baud_rate:=921600) ;;
+    telemetry_baud_rate:=9600|telemetry_baud_rate:=19200|telemetry_baud_rate:=38400|\
+    telemetry_baud_rate:=57600|telemetry_baud_rate:=115200|telemetry_baud_rate:=230400|\
+    telemetry_baud_rate:=460800|telemetry_baud_rate:=921600) ;;
     *) echo "不支持的启动选项：${argument}。使用 --help 查看用法。" >&2; exit 2 ;;
   esac
 done
@@ -37,7 +57,7 @@ flock -n 9 || { echo '该工程的测厚读取脚本已经运行，请先结束�
 # 两个环境共享上面的锁；容器内exec之后由ros2 launch处理Ctrl+C和子进程退出。
 if [[ -f /.dockerenv || -f /run/.containerenv ]]; then
   if [[ ! -f ${project_root}/install/measurement_manager/share/measurement_manager/launch/thickness.launch.xml ]]; then
-    echo '尚未安装XML启动文件，请先在当前容器中编译三个测厚相关包。' >&2
+    echo '尚未安装XML启动文件，请先在当前容器中编译工作区。' >&2
     exit 1
   fi
   [[ -x /usr/local/bin/robot-entrypoint ]] || {

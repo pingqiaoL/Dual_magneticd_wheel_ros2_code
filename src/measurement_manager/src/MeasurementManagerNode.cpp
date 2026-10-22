@@ -1,98 +1,48 @@
 #include "measurement_manager/MeasurementManagerNode.hpp"
+
 #include <cinttypes>
 #include <cmath>
-#include <limits>
+#include <exception>
 
 MeasurementManagerNode::MeasurementManagerNode() : Node("measurement_manager_node")
 {
-    _reading_subscription = create_subscription<robot_interfaces::msg::ThicknessReading>(
+    _processed_data_publisher = create_publisher<robot_interfaces::msg::ThicknessReading>(
+        "/measurement/thickness", rclcpp::QoS(64).reliable().durability_volatile());
+    // 当前默认开启。下位机状态话题尚未接入，后续回调调用同一个启停入口。
+    on_measurement_ready(true); // 后续改为订阅 robot_control 节点信息来启用。
+    _thick_data_subscription = create_subscription<robot_interfaces::msg::ThicknessReading>(
         "/thickness/reading", rclcpp::QoS(64).reliable().durability_volatile(),
-        [this](const robot_interfaces::msg::ThicknessReading &reading) { on_reading(reading); });
-    _status_subscription = create_subscription<robot_interfaces::msg::ThicknessStatus>(
-        "/thickness/status", rclcpp::QoS(1).reliable().durability_volatile(),
-        [this](const robot_interfaces::msg::ThicknessStatus &status) { on_status(status); });
-    RCLCPP_INFO(get_logger(), "测厚订阅节点已启动，等待采集节点发布数据；Ctrl+C退出。");
+        [this](const robot_interfaces::msg::ThicknessReading &thick_data)
+        { update_data(thick_data); });
+    RCLCPP_INFO(get_logger(), "测厚管理节点已启动，默认发布有效新读数；下位机状态订阅未启用。");
 }
-
-std::string
-MeasurementManagerNode::serial_number_to_text(const std::array<std::uint8_t, 12> &serial_number)
+// 测量状态判断。
+void MeasurementManagerNode::on_measurement_ready(bool is_ready)
 {
-    std::string serial_number_text;
-    bool has_serial_number = false;
-    for (const auto byte : serial_number)
+    if (is_ready && !_is_measurement_enabled)
     {
-        has_serial_number = has_serial_number || byte != 0;
-        serial_number_text += byte >= 32 && byte <= 126 ? static_cast<char>(byte) : '?';
+        // 重复的就绪状态不刷新时间，避免持续状态上报阻止正常测量发布。
+        _enabled_at = now();
     }
-    return has_serial_number ? serial_number_text : "unknown";
+    _is_measurement_enabled = is_ready;
 }
-
-const char *MeasurementManagerNode::unit_name(std::uint8_t unit)
+// 处理测厚数据。
+void MeasurementManagerNode::update_data(const robot_interfaces::msg::ThicknessReading &thick_data)
 {
-    return unit == robot_interfaces::msg::ThicknessReading::UNIT_UM ? "um" : "unknown";
+    if (!_is_measurement_enabled || !thick_data.finite || !std::isfinite(thick_data.value) ||
+        rclcpp::Time(thick_data.received_at) < _enabled_at)
+    {
+        return;
+    }
+
+    robot_interfaces::msg::ThicknessReading process_data = thick_data;
+    _processed_data_publisher->publish(process_data);
+    RCLCPP_INFO(get_logger(), "测量: seq=%" PRIu64 " value=%.9g um", thick_data.sequence,
+                static_cast<double>(thick_data.value));
 }
 
-const char *
-MeasurementManagerNode::status_description(const robot_interfaces::msg::ThicknessStatus &status)
-{
-    if (!status.port_open)
-    {
-        return "USB未打开，等待设备连接";
-    }
-    if (!status.communication_ready)
-    {
-        return status.connection_state == status.STALE ? "仪器应答超时，正在重试"
-                                                       : "USB已打开，等待仪器应答";
-    }
-    if (status.last_measurement_age_ms == std::numeric_limits<std::uint32_t>::max())
-    {
-        return "通信正常，等待测量上报";
-    }
-    return "通信正常，已收到测量上报";
-}
-
-void MeasurementManagerNode::on_reading(const robot_interfaces::msg::ThicknessReading &reading)
-{
-    // 每条消息直接在订阅回调打印；显示原始浮点值，不做滤波或单位猜测。
-    const auto serial_number_text = serial_number_to_text(reading.device_sn);
-    const bool is_finite = reading.finite && std::isfinite(reading.value);
-    RCLCPP_INFO(get_logger(),
-                "测量: SN=%s seq=%" PRIu64 " value=%.9g unit=%s material_raw=%u finite=%s",
-                serial_number_text.c_str(), reading.sequence, static_cast<double>(reading.value),
-                unit_name(reading.unit), static_cast<unsigned int>(reading.material_raw),
-                is_finite ? "true" : "false");
-}
-
-void MeasurementManagerNode::on_status(const robot_interfaces::msg::ThicknessStatus &status)
-{
-    constexpr std::uint32_t UNKNOWN_AGE_MS = std::numeric_limits<std::uint32_t>::max();
-    const bool has_status_changed =
-        !_has_status || status.connection_state != _last_status.connection_state ||
-        status.port_open != _last_status.port_open ||
-        status.communication_ready != _last_status.communication_ready ||
-        status.device_sn != _last_status.device_sn ||
-        status.last_error != _last_status.last_error ||
-        (status.last_measurement_age_ms == UNKNOWN_AGE_MS) !=
-            (_last_status.last_measurement_age_ms == UNKNOWN_AGE_MS);
-
-    if (has_status_changed)
-    {
-        const auto serial_number_text = serial_number_to_text(status.device_sn);
-        RCLCPP_INFO(get_logger(),
-                    "仪器状态: %s | SN=%s valid_frames=%" PRIu64 " crc_errors=%" PRIu64
-                    " io_errors=%" PRIu64 " reason=%s",
-                    status_description(status), serial_number_text.c_str(), status.valid_frames,
-                    status.crc_errors, status.io_errors,
-                    status.last_error.empty() ? "-" : status.last_error.c_str());
-    }
-    if (status.crc_errors != (_has_status ? _last_status.crc_errors : 0))
-    {
-        RCLCPP_WARN(get_logger(), "收到CRC错误帧，已丢弃；crc_errors=%" PRIu64, status.crc_errors);
-    }
-    _last_status = status;
-    _has_status = true;
-}
-
+// 单元测试提供自己的 main；正常构建包含下方节点入口。
+#ifndef MEASUREMENT_MANAGER_NO_MAIN
 int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
@@ -109,3 +59,4 @@ int main(int argc, char **argv)
     rclcpp::shutdown();
     return 0;
 }
+#endif

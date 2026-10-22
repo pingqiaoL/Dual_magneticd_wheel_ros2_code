@@ -1,0 +1,14 @@
+camera_capture_node:
+  ros__parameters:
+    # 设备、格式、分辨率和帧率由 XML 启动参数统一传给采集/视频节点。
+    frame_id: camera_optical_frame
+    frame_timeout_ms: 2000
+    reconnect_interval_ms: 1000
+
+video_streamer_node:
+  ros__parameters:
+    # 常用参数在 video.launch.xml，避免两份配置出现不同分辨率。
+    keyframe_interval_frames: 30
+    stream_path: /live
+    frame_timeout_ms: 2000
+    max_frame_age_ms: 150

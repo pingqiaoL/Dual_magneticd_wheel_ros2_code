@@ -5,6 +5,9 @@
        description="容器内测厚仪的 USB CDC 设备路径" />
   <arg name="baud_rate" default="115200"
        description="CDC 线路编码的波特率，不是 USB 总线速率" />
+  <arg name="telemetry_enabled" default="false" description="是否运行 MK32 数传节点" />
+  <arg name="telemetry_device_path" default="/dev/ttyTHS0" description="达妙载板串口1的数传路径" />
+  <arg name="telemetry_baud_rate" default="115200" description="数传串口波特率" />
 
   <!-- ROS 适配节点：设备打开、协议和重连由其内部 ThicknessDevice 处理。 -->
   <node pkg="thickness_usb_driver" exec="thickness_node"
@@ -16,4 +19,10 @@
   <!-- 处理节点：本文件仅启动进程，订阅回调的打印逻辑在 C++ 中实现。 -->
   <node pkg="measurement_manager" exec="measurement_manager_node"
         name="measurement_manager_node" output="screen" />
+
+  <node if="$(var telemetry_enabled)" pkg="telemetry_bridge" exec="telemetry_bridge_node"
+        name="telemetry_bridge_node" output="screen">
+    <param name="device_path" value="$(var telemetry_device_path)" />
+    <param name="baud_rate" value="$(var telemetry_baud_rate)" />
+  </node>
 </launch>

@@ -194,8 +194,7 @@ ssize_t SerialPort::read_bytes(std::uint8_t *read_buffer, std::size_t buffer_cap
         // HUP 与 POLLIN 可能同时出现，先取出仍然可读的尾部数据。
         if ((descriptor.revents & POLLIN) != 0)
         {
-            const ssize_t bytes_read =
-                ::read(_file_descriptor, read_buffer, buffer_capacity);
+            const ssize_t bytes_read = ::read(_file_descriptor, read_buffer, buffer_capacity);
             if (bytes_read > 0)
             {
                 return bytes_read;
@@ -235,6 +234,11 @@ ssize_t SerialPort::read_bytes(std::uint8_t *read_buffer, std::size_t buffer_cap
 bool SerialPort::is_open() const noexcept
 {
     return _file_descriptor >= 0;
+}
+
+int SerialPort::native_handle() const noexcept
+{
+    return _file_descriptor;
 }
 
 bool SerialPort::is_supported_baud_rate(unsigned int baud_rate) noexcept

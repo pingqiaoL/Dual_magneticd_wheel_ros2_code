@@ -35,10 +35,12 @@ int main()
 
         robot_common::io::SerialPort serial_port(device_path, 115200);
         CHECK(!serial_port.is_open());
+        CHECK(serial_port.native_handle() == -1);
         std::uint8_t read_buffer[128]{};
         CHECK(serial_port.read_bytes(read_buffer, sizeof(read_buffer), 0) == -1);
         CHECK(serial_port.open_port());
         CHECK(serial_port.open_port());
+        CHECK(serial_port.native_handle() >= 0);
 
         const std::uint8_t request_bytes[]{0xFE, 0xE1, 0x90, 0x0D, 0, 1, 0xFF};
         CHECK(serial_port.write_bytes(request_bytes, sizeof(request_bytes), 100) ==
@@ -71,11 +73,12 @@ int main()
         ::close(master_descriptor);
         CHECK(serial_port.read_bytes(read_buffer, sizeof(read_buffer), 100) == -1);
         CHECK(!serial_port.is_open());
+        CHECK(serial_port.native_handle() == -1);
         serial_port.close_port();
         serial_port.close_port();
 
-        std::cout << "PASS PTY: construction, open, bidirectional bytes, invalid arguments, "
-                     "timeout, partial write, disconnect\n";
+        std::cout << "PASS PTY: construction, native handle, open, bidirectional bytes, "
+                     "invalid arguments, timeout, partial write, disconnect\n";
     }
     catch (const std::exception &error)
     {

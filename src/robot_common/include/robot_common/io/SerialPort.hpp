@@ -46,6 +46,10 @@ class SerialPort final
     // 返回成功字节数只表示交给Linux，不代表设备应答。不能跨线程调用。
     ssize_t write_bytes(const std::uint8_t *bytes, std::size_t byte_count, int timeout_ms);
 
+    // 借用当前打开的 Linux 文件描述符，仅用于同一所有者线程执行 poll/ppoll。
+    // 调用者不得关闭、复制所有权或修改描述符配置；关闭状态返回 -1。
+    int native_handle() const noexcept;
+
     // 表示当前持有描述符，不是持续的 USB 在线探测；断开由后续 I/O 发现。
     bool is_open() const noexcept;
     static bool is_supported_baud_rate(unsigned int baud_rate) noexcept;

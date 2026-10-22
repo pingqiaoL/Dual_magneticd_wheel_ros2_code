@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-22",
+  "telemetry_formal_app_rtt_ms": {
+    "samples": 60,
+    "timeouts": 0,
+    "minimum": 60.917442,
+    "median": 73.8639515,
+    "mean": 74.43022521666667,
+    "p95": 85.570362,
+    "maximum": 95.484626
+  },
+  "telemetry_video_probe_rtt_ms": {
+    "samples": 60,
+    "median": 75.7113395,
+    "mean": 76.35642858333334,
+    "p95": 87.60762,
+    "maximum": 95.541399
+  },
+  "nano_source_to_encoded_ms": {
+    "samples": 896,
+    "median": 44.157909,
+    "p95": 49.17943,
+    "maximum": 55.526273
+  },
+  "video_rtp_last_to_ack_ms": {
+    "samples": 60,
+    "median": 45.9158315,
+    "p95": 63.982368,
+    "maximum": 106.966023,
+    "boundary": "RTP payloader output to complete-frame ACK parsed on Nano; includes telemetry return"
+  },
+  "android_playback": {
+    "version_name": "0.8.10",
+    "version_code": 25,
+    "rendered_fps": 29.89524445675372,
+    "decoder_dropped_frames": 0,
+    "buffered_steady_ms": {
+      "median": 156.0,
+      "p95": 185.0,
+      "maximum": 192.0
+    },
+    "rebuffer_events": 18,
+    "rebuffer_total_ms": 426,
+    "rebuffer_maximum_ms": 51
+  },
+  "conclusion": "No sustained queue growth. Exact glass-to-glass delay remains outside software timestamp coverage."
+}
+

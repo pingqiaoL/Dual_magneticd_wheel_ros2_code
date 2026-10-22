@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="config_file" default="$(find-pkg-share video_streamer_transmission)/config/video.yaml" />
+  <arg name="source_mode" default="camera" />
+  <arg name="device_path" default="/dev/video0" />
+  <arg name="input_format" default="MJPEG" />
+  <arg name="width" default="1280" />
+  <arg name="height" default="720" />
+  <arg name="frame_rate" default="30" />
+  <arg name="bitrate_kbps" default="6000" />
+  <arg name="rtsp_port" default="8554" />
+  <node_container pkg="rclcpp_components" exec="component_container_mt" name="video_container" namespace="/" output="screen">
+    <composable_node pkg="camera_driver" plugin="camera_driver::CameraCaptureNode" name="camera_capture_node">
+      <param from="$(var config_file)" />
+      <param name="source_mode" value="$(var source_mode)" />
+      <param name="device_path" value="$(var device_path)" />
+      <param name="input_format" value="$(var input_format)" />
+      <param name="width" value="$(var width)" />
+      <param name="height" value="$(var height)" />
+      <param name="frame_rate" value="$(var frame_rate)" />
+      <extra_arg name="use_intra_process_comms" value="true" />
+    </composable_node>
+    <composable_node pkg="video_streamer_transmission" plugin="video_streamer_transmission::VideoStreamerNode" name="video_streamer_node">
+      <param from="$(var config_file)" />
+      <param name="width" value="$(var width)" />
+      <param name="height" value="$(var height)" />
+      <param name="frame_rate" value="$(var frame_rate)" />
+      <param name="bitrate_kbps" value="$(var bitrate_kbps)" />
+      <param name="rtsp_port" value="$(var rtsp_port)" />
+      <extra_arg name="use_intra_process_comms" value="true" />
+    </composable_node>
+  </node_container>
+</launch>

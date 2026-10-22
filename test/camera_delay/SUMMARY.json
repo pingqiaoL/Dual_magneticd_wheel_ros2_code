@@ -1,0 +1,504 @@
+{
+  "date": "2026-10-20",
+  "timezone": "Asia/Shanghai",
+  "android": [
+    {
+      "directory": "results/android_20261020_201550",
+      "summary": {
+        "kind": "android",
+        "source": "work\\camera_delay\\android_20261020_201550",
+        "window_start_ms": 2482450.0,
+        "window_end_ms": 2558180.0,
+        "fresh_events": 73,
+        "fresh_stats": 73,
+        "steady_stats": 59,
+        "buffered_all_ms": {
+          "count": 73,
+          "minimum": 114.0,
+          "median": 171.0,
+          "mean": 171.3835616438356,
+          "p95": 192.0,
+          "maximum": 197.0
+        },
+        "buffered_steady_ms": {
+          "count": 59,
+          "minimum": 114.0,
+          "median": 175.0,
+          "mean": 172.77966101694915,
+          "p95": 192.0,
+          "maximum": 197.0
+        },
+        "first_third_buffer_ms": {
+          "count": 19,
+          "minimum": 140.0,
+          "median": 169.0,
+          "mean": 171.31578947368422,
+          "p95": 195.0,
+          "maximum": 195.0
+        },
+        "last_third_buffer_ms": {
+          "count": 19,
+          "minimum": 153.0,
+          "median": 174.0,
+          "mean": 171.3684210526316,
+          "p95": 186.0,
+          "maximum": 186.0
+        },
+        "release_lead_ms": {
+          "count": 59,
+          "minimum": 39.805,
+          "median": 46.288000000000004,
+          "mean": 45.477881355932205,
+          "p95": 49.277,
+          "maximum": 49.738
+        },
+        "frame_age_ms": {
+          "count": 59,
+          "minimum": 0.0,
+          "median": 18.0,
+          "mean": 19.1864406779661,
+          "p95": 41.0,
+          "maximum": 47.0
+        },
+        "speed": {
+          "count": 59,
+          "minimum": 1.0,
+          "median": 1.0,
+          "mean": 1.0,
+          "p95": 1.0,
+          "maximum": 1.0
+        },
+        "rendered_fps": 29.883934437275745,
+        "rendered_frame_delta": 1774,
+        "observed_span_ms": 59363,
+        "decoder_dropped_delta": 0,
+        "startup": [],
+        "exceptional_events": [],
+        "buffering_events": []
+      }
+    },
+    {
+      "directory": "results/android_20261020_201716",
+      "summary": {
+        "kind": "android",
+        "source": "work\\camera_delay\\android_20261020_201716",
+        "window_start_ms": 2567650.0,
+        "window_end_ms": 2644630.0,
+        "fresh_events": 90,
+        "fresh_stats": 73,
+        "steady_stats": 60,
+        "buffered_all_ms": {
+          "count": 73,
+          "minimum": 114.0,
+          "median": 184.0,
+          "mean": 185.3972602739726,
+          "p95": 229.0,
+          "maximum": 363.0
+        },
+        "buffered_steady_ms": {
+          "count": 60,
+          "minimum": 114.0,
+          "median": 184.0,
+          "mean": 182.16666666666666,
+          "p95": 225.0,
+          "maximum": 237.0
+        },
+        "first_third_buffer_ms": {
+          "count": 20,
+          "minimum": 139.0,
+          "median": 181.0,
+          "mean": 175.4,
+          "p95": 196.0,
+          "maximum": 197.0
+        },
+        "last_third_buffer_ms": {
+          "count": 20,
+          "minimum": 114.0,
+          "median": 187.0,
+          "mean": 192.7,
+          "p95": 229.0,
+          "maximum": 237.0
+        },
+        "release_lead_ms": {
+          "count": 60,
+          "minimum": 37.135,
+          "median": 44.238,
+          "mean": 44.63173333333334,
+          "p95": 49.423,
+          "maximum": 49.781
+        },
+        "frame_age_ms": {
+          "count": 60,
+          "minimum": 0.0,
+          "median": 16.5,
+          "mean": 16.583333333333332,
+          "p95": 38.0,
+          "maximum": 53.0
+        },
+        "speed": {
+          "count": 60,
+          "minimum": 1.0,
+          "median": 1.0,
+          "mean": 1.0,
+          "p95": 1.0,
+          "maximum": 1.0
+        },
+        "rendered_fps": 29.743708379463623,
+        "rendered_frame_delta": 1800,
+        "observed_span_ms": 60517,
+        "decoder_dropped_delta": 0,
+        "startup": [
+          {
+            "event": "OPEN",
+            "attempt": "1",
+            "uri": "rtsp://192.168.144.129:8554/live",
+            "ethernet": "192.168.144.20",
+            "catch_up": "true"
+          },
+          {
+            "event": "DECODER",
+            "name": "OMX.qcom.video.decoder.avc",
+            "init_duration_ms": "51"
+          },
+          {
+            "event": "FIRST_FRAME",
+            "after_ms": "640",
+            "buffered_ms": "332",
+            "release_lead_us": "-34"
+          },
+          {
+            "event": "READY",
+            "after_ms": "645",
+            "buffered_ms": "326"
+          },
+          {
+            "event": "READY",
+            "after_ms": "63813",
+            "buffered_ms": "84"
+          },
+          {
+            "event": "READY",
+            "after_ms": "63863",
+            "buffered_ms": "126"
+          }
+        ],
+        "exceptional_events": [],
+        "buffering_events": [
+          {
+            "prepared": "false",
+            "buffered_ms": "0"
+          },
+          {
+            "prepared": "true",
+            "buffered_ms": "93"
+          },
+          {
+            "prepared": "true",
+            "buffered_ms": "128"
+          }
+        ]
+      }
+    },
+    {
+      "directory": "results/android_20261020_201934",
+      "summary": {
+        "kind": "android",
+        "source": "work\\camera_delay\\android_20261020_201934",
+        "window_start_ms": 2706310.0,
+        "window_end_ms": 2730940.0,
+        "fresh_events": 30,
+        "fresh_stats": 19,
+        "steady_stats": 9,
+        "buffered_all_ms": {
+          "count": 19,
+          "minimum": 148.0,
+          "median": 170.0,
+          "mean": 184.52631578947367,
+          "p95": 389.0,
+          "maximum": 389.0
+        },
+        "buffered_steady_ms": {
+          "count": 9,
+          "minimum": 148.0,
+          "median": 163.0,
+          "mean": 164.0,
+          "p95": 175.0,
+          "maximum": 175.0
+        },
+        "first_third_buffer_ms": {
+          "count": 3,
+          "minimum": 158.0,
+          "median": 162.0,
+          "mean": 163.66666666666666,
+          "p95": 171.0,
+          "maximum": 171.0
+        },
+        "last_third_buffer_ms": {
+          "count": 3,
+          "minimum": 148.0,
+          "median": 163.0,
+          "mean": 162.0,
+          "p95": 175.0,
+          "maximum": 175.0
+        },
+        "release_lead_ms": {
+          "count": 9,
+          "minimum": 27.504,
+          "median": 45.411,
+          "mean": 43.291111111111114,
+          "p95": 48.924,
+          "maximum": 48.924
+        },
+        "frame_age_ms": {
+          "count": 9,
+          "minimum": 0.0,
+          "median": 14.0,
+          "mean": 14.666666666666666,
+          "p95": 33.0,
+          "maximum": 33.0
+        },
+        "speed": {
+          "count": 9,
+          "minimum": 1.0,
+          "median": 1.0,
+          "mean": 1.0,
+          "p95": 1.0,
+          "maximum": 1.0
+        },
+        "rendered_fps": 29.796511627906977,
+        "rendered_frame_delta": 246,
+        "observed_span_ms": 8256,
+        "decoder_dropped_delta": 0,
+        "startup": [
+          {
+            "event": "OPEN",
+            "attempt": "1",
+            "uri": "rtsp://192.168.144.129:8554/live",
+            "ethernet": "192.168.144.20",
+            "catch_up": "true"
+          },
+          {
+            "event": "DECODER",
+            "name": "OMX.qcom.video.decoder.avc",
+            "init_duration_ms": "53"
+          },
+          {
+            "event": "FIRST_FRAME",
+            "after_ms": "624",
+            "buffered_ms": "300",
+            "release_lead_us": "-34"
+          },
+          {
+            "event": "READY",
+            "after_ms": "636",
+            "buffered_ms": "337"
+          }
+        ],
+        "exceptional_events": [],
+        "buffering_events": [
+          {
+            "prepared": "false",
+            "buffered_ms": "0"
+          }
+        ]
+      }
+    },
+    {
+      "directory": "results/android_20261020_202006",
+      "summary": {
+        "kind": "android",
+        "source": "work\\camera_delay\\android_20261020_202006",
+        "window_start_ms": 2738400.0,
+        "window_end_ms": 2760830.0,
+        "fresh_events": 30,
+        "fresh_stats": 19,
+        "steady_stats": 7,
+        "buffered_all_ms": {
+          "count": 19,
+          "minimum": 186.0,
+          "median": 203.0,
+          "mean": 213.26315789473685,
+          "p95": 369.0,
+          "maximum": 369.0
+        },
+        "buffered_steady_ms": {
+          "count": 7,
+          "minimum": 186.0,
+          "median": 197.0,
+          "mean": 196.57142857142858,
+          "p95": 205.0,
+          "maximum": 205.0
+        },
+        "first_third_buffer_ms": {
+          "count": 2,
+          "minimum": 186.0,
+          "median": 191.5,
+          "mean": 191.5,
+          "p95": 197.0,
+          "maximum": 197.0
+        },
+        "last_third_buffer_ms": {
+          "count": 2,
+          "minimum": 192.0,
+          "median": 197.0,
+          "mean": 197.0,
+          "p95": 202.0,
+          "maximum": 202.0
+        },
+        "release_lead_ms": {
+          "count": 7,
+          "minimum": 40.005,
+          "median": 44.962,
+          "mean": 44.197857142857146,
+          "p95": 49.839,
+          "maximum": 49.839
+        },
+        "frame_age_ms": {
+          "count": 7,
+          "minimum": 1.0,
+          "median": 7.0,
+          "mean": 14.0,
+          "p95": 31.0,
+          "maximum": 31.0
+        },
+        "speed": {
+          "count": 7,
+          "minimum": 1.0,
+          "median": 1.0,
+          "mean": 1.0,
+          "p95": 1.0,
+          "maximum": 1.0
+        },
+        "rendered_fps": 29.88691437802908,
+        "rendered_frame_delta": 185,
+        "observed_span_ms": 6190,
+        "decoder_dropped_delta": 0,
+        "startup": [
+          {
+            "event": "OPEN",
+            "attempt": "1",
+            "uri": "rtsp://192.168.144.129:8554/live",
+            "ethernet": "192.168.144.20",
+            "catch_up": "true"
+          },
+          {
+            "event": "DECODER",
+            "name": "OMX.qcom.video.decoder.avc",
+            "init_duration_ms": "54"
+          },
+          {
+            "event": "FIRST_FRAME",
+            "after_ms": "649",
+            "buffered_ms": "299",
+            "release_lead_us": "-34"
+          },
+          {
+            "event": "READY",
+            "after_ms": "654",
+            "buffered_ms": "326"
+          }
+        ],
+        "exceptional_events": [],
+        "buffering_events": [
+          {
+            "prepared": "false",
+            "buffered_ms": "0"
+          }
+        ]
+      }
+    }
+  ],
+  "nano": [
+    {
+      "directory": "results/nano_20261020_201658",
+      "summary": {
+        "kind": "nano",
+        "samples": 75,
+        "cpu_percent_all_cores": {
+          "count": 74,
+          "minimum": 26.71118530884808,
+          "median": 43.25461825461825,
+          "mean": 46.750076360973125,
+          "p95": 67.39495798319328,
+          "maximum": 89.0
+        },
+        "eth0_tx_mbps_all_traffic": {
+          "count": 74,
+          "minimum": 2.3042462586635364,
+          "median": 6.289486645375227,
+          "mean": 6.2113645482978335,
+          "p95": 6.485055058013109,
+          "maximum": 6.715725765930481
+        },
+        "minimum_mem_available_kb": 4110788,
+        "network_counter_deltas": {
+          "rx_errors": 0,
+          "tx_errors": 0,
+          "rx_dropped": 0,
+          "tx_dropped": 0
+        },
+        "video_counter_deltas": {
+          "received_frames": 2570,
+          "submitted_frames": 2551,
+          "encoded_frames": 2536,
+          "dropped_frames": 19
+        },
+        "status_note": "Status snapshots include setup/teardown sampling overhead; no exact status FPS inferred."
+      }
+    }
+  ],
+  "prior_ack": {
+    "samples": 60,
+    "unmatched_ack": 0,
+    "same_process_ping_rtt_ms": {
+      "count": 60,
+      "mean": 82.88214778333334,
+      "median": 83.398092,
+      "p95": 96.211848,
+      "maximum": 105.460247
+    },
+    "rtp_last_to_ack_ms": {
+      "count": 60,
+      "mean": 47.47295655,
+      "median": 45.325254,
+      "p95": 57.959227,
+      "maximum": 114.861516
+    },
+    "rtp_first_to_ack_ms": {
+      "count": 60,
+      "mean": 48.41479338333333,
+      "median": 46.151367,
+      "p95": 58.904545,
+      "maximum": 115.637323
+    },
+    "encoded_to_ack_ms": {
+      "count": 60,
+      "mean": 48.6610389,
+      "median": 46.3794075,
+      "p95": 59.097704,
+      "maximum": 115.856468
+    },
+    "android_processing_ms": {
+      "count": 60,
+      "mean": 0.049,
+      "median": 0.044,
+      "p95": 0.071,
+      "maximum": 0.072
+    },
+    "estimated_arrival_ms": {
+      "count": 60,
+      "mean": 6.097367879166666,
+      "median": 2.918394375000002,
+      "p95": 18.329489499999994,
+      "maximum": 73.0368745
+    },
+    "negative_estimates": 18,
+    "boundary": "RTP payloader pad, not physical NIC egress; complete-frame test receiver, no decode/render",
+    "assumptions": "Estimated arrival subtracts nearby RTT/2; assumes data-link symmetry and similar processing. Not exact one-way delay."
+  },
+  "conclusion": "Largest clearly observed controllable waiting is Android buffered media (~175-184 ms). No exact glass-to-glass or reliable one-way wireless delay measured.",
+  "caution": "Prior ACK and internal trace were collected earlier the same day. Metrics overlap and cannot be summed.",
+  "baseline_production_modified": false,
+  "production_optimized": true,
+  "latest_optimization": "OPTIMIZATION_SUMMARY.json"
+}

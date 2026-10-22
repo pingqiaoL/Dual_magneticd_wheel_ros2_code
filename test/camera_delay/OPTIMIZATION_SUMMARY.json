@@ -1,0 +1,1749 @@
+{
+  "date": "2026-10-20",
+  "timezone": "Asia/Shanghai",
+  "android_version": "0.8.10",
+  "version_code": 25,
+  "android_policy_ms": {
+    "target": 100,
+    "trigger": 180,
+    "hold": 200
+  },
+  "nano": {
+    "appsrc_frames": 1,
+    "raw_queue_frames": 1,
+    "max_frame_age_ms": 150
+  },
+  "unit_tests": 34,
+  "cases": {
+    "100_180": {
+      "kind": "android",
+      "source": "results/android_20261020_205623",
+      "warmup_seconds": 15,
+      "window_start_ms": 4915100.0,
+      "window_end_ms": 5006190.0,
+      "fresh_events": 104,
+      "fresh_stats": 87,
+      "steady_stats": 74,
+      "buffered_all_ms": {
+        "count": 87,
+        "minimum": 100.0,
+        "median": 152.0,
+        "mean": 156.79310344827587,
+        "p95": 172.0,
+        "maximum": 441.0
+      },
+      "buffered_steady_ms": {
+        "count": 74,
+        "minimum": 100.0,
+        "median": 152.0,
+        "mean": 150.51351351351352,
+        "p95": 168.0,
+        "maximum": 173.0
+      },
+      "first_third_buffer_ms": {
+        "count": 24,
+        "minimum": 100.0,
+        "median": 146.5,
+        "mean": 144.04166666666666,
+        "p95": 169.0,
+        "maximum": 172.0
+      },
+      "last_third_buffer_ms": {
+        "count": 24,
+        "minimum": 112.0,
+        "median": 155.0,
+        "mean": 152.91666666666666,
+        "p95": 168.0,
+        "maximum": 173.0
+      },
+      "release_lead_ms": {
+        "count": 74,
+        "minimum": 32.598,
+        "median": 44.3785,
+        "mean": 44.278621621621625,
+        "p95": 49.528,
+        "maximum": 49.916000000000004
+      },
+      "frame_age_ms": {
+        "count": 74,
+        "minimum": -18.0,
+        "median": 10.0,
+        "mean": 10.324324324324325,
+        "p95": 32.0,
+        "maximum": 39.0
+      },
+      "speed": {
+        "count": 74,
+        "minimum": 1.0,
+        "median": 1.0,
+        "mean": 1.0,
+        "p95": 1.0,
+        "maximum": 1.0
+      },
+      "rendered_fps": 29.877446399487358,
+      "rendered_frame_delta": 2238,
+      "observed_span_ms": 74906,
+      "decoder_dropped_delta": 0,
+      "rebuffer_duration_ms": {
+        "count": 3,
+        "minimum": 8,
+        "median": 10,
+        "mean": 17.666666666666668,
+        "p95": 35,
+        "maximum": 35
+      },
+      "rebuffer_total_ms": 53,
+      "steady_rebuffer_events": 1,
+      "startup": [
+        {
+          "event": "OPEN",
+          "attempt": "1",
+          "uri": "rtsp://192.168.144.129:8554/live",
+          "ethernet": "192.168.144.20",
+          "catch_up": "true"
+        },
+        {
+          "event": "DECODER",
+          "name": "OMX.qcom.video.decoder.avc",
+          "init_duration_ms": "68"
+        },
+        {
+          "event": "FIRST_FRAME",
+          "after_ms": "1015",
+          "buffered_ms": "404",
+          "release_lead_us": "-34"
+        },
+        {
+          "event": "READY",
+          "after_ms": "1020",
+          "buffered_ms": "430"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4540",
+          "buffered_ms": "108"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4949",
+          "buffered_ms": "125"
+        },
+        {
+          "event": "READY",
+          "after_ms": "27051",
+          "buffered_ms": "152"
+        }
+      ],
+      "exceptional_events": [],
+      "buffering_events": [
+        {
+          "prepared": "false",
+          "buffered_ms": "0"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "112"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "67"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "160"
+        }
+      ]
+    },
+    "80_150": {
+      "kind": "android",
+      "source": "results/android_20261020_205858",
+      "warmup_seconds": 30.0,
+      "window_start_ms": 5070380.0,
+      "window_end_ms": 5160970.0,
+      "fresh_events": 219,
+      "fresh_stats": 86,
+      "steady_stats": 59,
+      "buffered_all_ms": {
+        "count": 86,
+        "minimum": 97.0,
+        "median": 136.0,
+        "mean": 142.09302325581396,
+        "p95": 174.0,
+        "maximum": 460.0
+      },
+      "buffered_steady_ms": {
+        "count": 59,
+        "minimum": 97.0,
+        "median": 134.0,
+        "mean": 133.64406779661016,
+        "p95": 158.0,
+        "maximum": 189.0
+      },
+      "first_third_buffer_ms": {
+        "count": 19,
+        "minimum": 97.0,
+        "median": 131.0,
+        "mean": 135.05263157894737,
+        "p95": 189.0,
+        "maximum": 189.0
+      },
+      "last_third_buffer_ms": {
+        "count": 19,
+        "minimum": 110.0,
+        "median": 135.0,
+        "mean": 132.94736842105263,
+        "p95": 156.0,
+        "maximum": 156.0
+      },
+      "release_lead_ms": {
+        "count": 59,
+        "minimum": 36.087,
+        "median": 43.861000000000004,
+        "mean": 44.29364406779661,
+        "p95": 49.162,
+        "maximum": 49.355000000000004
+      },
+      "frame_age_ms": {
+        "count": 59,
+        "minimum": -5.0,
+        "median": 10.0,
+        "mean": 11.135593220338983,
+        "p95": 30.0,
+        "maximum": 43.0
+      },
+      "speed": {
+        "count": 59,
+        "minimum": 1.0,
+        "median": 1.0,
+        "mean": 1.005084745762712,
+        "p95": 1.1,
+        "maximum": 1.1
+      },
+      "rendered_fps": 29.830405814657784,
+      "rendered_frame_delta": 1773,
+      "observed_span_ms": 59436,
+      "decoder_dropped_delta": 0,
+      "rebuffer_duration_ms": {
+        "count": 46,
+        "minimum": 7,
+        "median": 17.0,
+        "mean": 18.891304347826086,
+        "p95": 35,
+        "maximum": 46
+      },
+      "rebuffer_total_ms": 869,
+      "steady_rebuffer_events": 26,
+      "startup": [
+        {
+          "event": "OPEN",
+          "attempt": "1",
+          "uri": "rtsp://192.168.144.129:8554/live",
+          "ethernet": "192.168.144.20",
+          "catch_up": "true"
+        },
+        {
+          "event": "DECODER",
+          "name": "OMX.qcom.video.decoder.avc",
+          "init_duration_ms": "68"
+        },
+        {
+          "event": "FIRST_FRAME",
+          "after_ms": "1020",
+          "buffered_ms": "370",
+          "release_lead_us": "-32"
+        },
+        {
+          "event": "READY",
+          "after_ms": "1026",
+          "buffered_ms": "399"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4860",
+          "buffered_ms": "126"
+        },
+        {
+          "event": "READY",
+          "after_ms": "5049",
+          "buffered_ms": "97"
+        },
+        {
+          "event": "READY",
+          "after_ms": "5915",
+          "buffered_ms": "87"
+        },
+        {
+          "event": "READY",
+          "after_ms": "6038",
+          "buffered_ms": "75"
+        },
+        {
+          "event": "READY",
+          "after_ms": "6071",
+          "buffered_ms": "88"
+        },
+        {
+          "event": "READY",
+          "after_ms": "6134",
+          "buffered_ms": "155"
+        },
+        {
+          "event": "READY",
+          "after_ms": "6440",
+          "buffered_ms": "138"
+        },
+        {
+          "event": "READY",
+          "after_ms": "8342",
+          "buffered_ms": "149"
+        },
+        {
+          "event": "READY",
+          "after_ms": "9394",
+          "buffered_ms": "155"
+        },
+        {
+          "event": "READY",
+          "after_ms": "10239",
+          "buffered_ms": "105"
+        },
+        {
+          "event": "READY",
+          "after_ms": "10404",
+          "buffered_ms": "182"
+        },
+        {
+          "event": "READY",
+          "after_ms": "11542",
+          "buffered_ms": "130"
+        },
+        {
+          "event": "READY",
+          "after_ms": "12607",
+          "buffered_ms": "150"
+        },
+        {
+          "event": "READY",
+          "after_ms": "16722",
+          "buffered_ms": "123"
+        },
+        {
+          "event": "READY",
+          "after_ms": "17378",
+          "buffered_ms": "144"
+        },
+        {
+          "event": "READY",
+          "after_ms": "19390",
+          "buffered_ms": "122"
+        },
+        {
+          "event": "READY",
+          "after_ms": "22091",
+          "buffered_ms": "103"
+        },
+        {
+          "event": "READY",
+          "after_ms": "22384",
+          "buffered_ms": "125"
+        },
+        {
+          "event": "READY",
+          "after_ms": "24648",
+          "buffered_ms": "153"
+        },
+        {
+          "event": "READY",
+          "after_ms": "26233",
+          "buffered_ms": "117"
+        },
+        {
+          "event": "READY",
+          "after_ms": "30427",
+          "buffered_ms": "152"
+        },
+        {
+          "event": "READY",
+          "after_ms": "34438",
+          "buffered_ms": "161"
+        },
+        {
+          "event": "READY",
+          "after_ms": "34949",
+          "buffered_ms": "131"
+        },
+        {
+          "event": "READY",
+          "after_ms": "35457",
+          "buffered_ms": "156"
+        },
+        {
+          "event": "READY",
+          "after_ms": "36479",
+          "buffered_ms": "161"
+        },
+        {
+          "event": "READY",
+          "after_ms": "37456",
+          "buffered_ms": "157"
+        },
+        {
+          "event": "READY",
+          "after_ms": "40030",
+          "buffered_ms": "74"
+        },
+        {
+          "event": "READY",
+          "after_ms": "40058",
+          "buffered_ms": "87"
+        },
+        {
+          "event": "READY",
+          "after_ms": "40110",
+          "buffered_ms": "105"
+        },
+        {
+          "event": "READY",
+          "after_ms": "40183",
+          "buffered_ms": "116"
+        },
+        {
+          "event": "READY",
+          "after_ms": "41569",
+          "buffered_ms": "146"
+        },
+        {
+          "event": "READY",
+          "after_ms": "43588",
+          "buffered_ms": "140"
+        },
+        {
+          "event": "READY",
+          "after_ms": "44238",
+          "buffered_ms": "100"
+        },
+        {
+          "event": "READY",
+          "after_ms": "44578",
+          "buffered_ms": "152"
+        },
+        {
+          "event": "READY",
+          "after_ms": "46483",
+          "buffered_ms": "98"
+        },
+        {
+          "event": "READY",
+          "after_ms": "46568",
+          "buffered_ms": "122"
+        },
+        {
+          "event": "READY",
+          "after_ms": "50592",
+          "buffered_ms": "157"
+        },
+        {
+          "event": "READY",
+          "after_ms": "52017",
+          "buffered_ms": "106"
+        },
+        {
+          "event": "READY",
+          "after_ms": "52170",
+          "buffered_ms": "133"
+        },
+        {
+          "event": "READY",
+          "after_ms": "52618",
+          "buffered_ms": "151"
+        },
+        {
+          "event": "READY",
+          "after_ms": "57297",
+          "buffered_ms": "132"
+        },
+        {
+          "event": "READY",
+          "after_ms": "61638",
+          "buffered_ms": "147"
+        },
+        {
+          "event": "READY",
+          "after_ms": "73677",
+          "buffered_ms": "132"
+        },
+        {
+          "event": "READY",
+          "after_ms": "74993",
+          "buffered_ms": "123"
+        },
+        {
+          "event": "READY",
+          "after_ms": "75681",
+          "buffered_ms": "119"
+        },
+        {
+          "event": "READY",
+          "after_ms": "78695",
+          "buffered_ms": "163"
+        }
+      ],
+      "exceptional_events": [],
+      "buffering_events": [
+        {
+          "prepared": "false",
+          "buffered_ms": "0"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "107"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "70"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "95"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "79"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "92"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "138"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "142"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "84"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "121"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "110"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "164"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "130"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "113"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "94"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "128"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "122"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "105"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "128"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "119"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "104"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "125"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "133"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "106"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "101"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "93"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "161"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "74"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "88"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "108"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "66"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "123"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "130"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "104"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "93"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "101"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "93"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "128"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "85"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "102"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "86"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "103"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "120"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "135"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "100"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "91"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "130"
+        }
+      ]
+    },
+    "100_150": {
+      "kind": "android",
+      "source": "results/android_20261020_210117",
+      "warmup_seconds": 15,
+      "window_start_ms": 5209240.0,
+      "window_end_ms": 5300130.0,
+      "fresh_events": 195,
+      "fresh_stats": 86,
+      "steady_stats": 73,
+      "buffered_all_ms": {
+        "count": 86,
+        "minimum": 88.0,
+        "median": 138.0,
+        "mean": 142.40697674418604,
+        "p95": 165.0,
+        "maximum": 438.0
+      },
+      "buffered_steady_ms": {
+        "count": 73,
+        "minimum": 88.0,
+        "median": 136.0,
+        "mean": 134.41095890410958,
+        "p95": 162.0,
+        "maximum": 168.0
+      },
+      "first_third_buffer_ms": {
+        "count": 24,
+        "minimum": 88.0,
+        "median": 131.5,
+        "mean": 132.45833333333334,
+        "p95": 158.0,
+        "maximum": 168.0
+      },
+      "last_third_buffer_ms": {
+        "count": 24,
+        "minimum": 111.0,
+        "median": 138.0,
+        "mean": 137.375,
+        "p95": 163.0,
+        "maximum": 165.0
+      },
+      "release_lead_ms": {
+        "count": 73,
+        "minimum": 29.93,
+        "median": 44.75,
+        "mean": 44.3664794520548,
+        "p95": 49.393,
+        "maximum": 49.913000000000004
+      },
+      "frame_age_ms": {
+        "count": 73,
+        "minimum": -8.0,
+        "median": 7.0,
+        "mean": 8.794520547945206,
+        "p95": 26.0,
+        "maximum": 33.0
+      },
+      "speed": {
+        "count": 73,
+        "minimum": 1.0,
+        "median": 1.0,
+        "mean": 1.0068493150684932,
+        "p95": 1.1,
+        "maximum": 1.1
+      },
+      "rendered_fps": 29.883411464314182,
+      "rendered_frame_delta": 2212,
+      "observed_span_ms": 74021,
+      "decoder_dropped_delta": 0,
+      "rebuffer_duration_ms": {
+        "count": 36,
+        "minimum": 5,
+        "median": 12.5,
+        "mean": 14.333333333333334,
+        "p95": 27,
+        "maximum": 28
+      },
+      "rebuffer_total_ms": 516,
+      "steady_rebuffer_events": 30,
+      "startup": [
+        {
+          "event": "OPEN",
+          "attempt": "1",
+          "uri": "rtsp://192.168.144.129:8554/live",
+          "ethernet": "192.168.144.20",
+          "catch_up": "true"
+        },
+        {
+          "event": "DECODER",
+          "name": "OMX.qcom.video.decoder.avc",
+          "init_duration_ms": "70"
+        },
+        {
+          "event": "FIRST_FRAME",
+          "after_ms": "1008",
+          "buffered_ms": "405",
+          "release_lead_us": "-33"
+        },
+        {
+          "event": "READY",
+          "after_ms": "1016",
+          "buffered_ms": "402"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4646",
+          "buffered_ms": "100"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4686",
+          "buffered_ms": "103"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4952",
+          "buffered_ms": "122"
+        },
+        {
+          "event": "READY",
+          "after_ms": "8966",
+          "buffered_ms": "131"
+        },
+        {
+          "event": "READY",
+          "after_ms": "11491",
+          "buffered_ms": "130"
+        },
+        {
+          "event": "READY",
+          "after_ms": "11971",
+          "buffered_ms": "133"
+        },
+        {
+          "event": "READY",
+          "after_ms": "14002",
+          "buffered_ms": "149"
+        },
+        {
+          "event": "READY",
+          "after_ms": "16876",
+          "buffered_ms": "131"
+        },
+        {
+          "event": "READY",
+          "after_ms": "23022",
+          "buffered_ms": "153"
+        },
+        {
+          "event": "READY",
+          "after_ms": "32055",
+          "buffered_ms": "147"
+        },
+        {
+          "event": "READY",
+          "after_ms": "33070",
+          "buffered_ms": "165"
+        },
+        {
+          "event": "READY",
+          "after_ms": "35057",
+          "buffered_ms": "125"
+        },
+        {
+          "event": "READY",
+          "after_ms": "38081",
+          "buffered_ms": "164"
+        },
+        {
+          "event": "READY",
+          "after_ms": "38841",
+          "buffered_ms": "102"
+        },
+        {
+          "event": "READY",
+          "after_ms": "39086",
+          "buffered_ms": "157"
+        },
+        {
+          "event": "READY",
+          "after_ms": "41687",
+          "buffered_ms": "99"
+        },
+        {
+          "event": "READY",
+          "after_ms": "42041",
+          "buffered_ms": "99"
+        },
+        {
+          "event": "READY",
+          "after_ms": "43106",
+          "buffered_ms": "146"
+        },
+        {
+          "event": "READY",
+          "after_ms": "46119",
+          "buffered_ms": "155"
+        },
+        {
+          "event": "READY",
+          "after_ms": "48518",
+          "buffered_ms": "100"
+        },
+        {
+          "event": "READY",
+          "after_ms": "48904",
+          "buffered_ms": "118"
+        },
+        {
+          "event": "READY",
+          "after_ms": "49133",
+          "buffered_ms": "140"
+        },
+        {
+          "event": "READY",
+          "after_ms": "59162",
+          "buffered_ms": "162"
+        },
+        {
+          "event": "READY",
+          "after_ms": "60010",
+          "buffered_ms": "126"
+        },
+        {
+          "event": "READY",
+          "after_ms": "60157",
+          "buffered_ms": "124"
+        },
+        {
+          "event": "READY",
+          "after_ms": "62167",
+          "buffered_ms": "131"
+        },
+        {
+          "event": "READY",
+          "after_ms": "64184",
+          "buffered_ms": "142"
+        },
+        {
+          "event": "READY",
+          "after_ms": "66183",
+          "buffered_ms": "166"
+        },
+        {
+          "event": "READY",
+          "after_ms": "67196",
+          "buffered_ms": "162"
+        },
+        {
+          "event": "READY",
+          "after_ms": "69040",
+          "buffered_ms": "123"
+        },
+        {
+          "event": "READY",
+          "after_ms": "70191",
+          "buffered_ms": "164"
+        },
+        {
+          "event": "READY",
+          "after_ms": "79241",
+          "buffered_ms": "163"
+        },
+        {
+          "event": "READY",
+          "after_ms": "80226",
+          "buffered_ms": "129"
+        },
+        {
+          "event": "READY",
+          "after_ms": "86269",
+          "buffered_ms": "164"
+        },
+        {
+          "event": "READY",
+          "after_ms": "88003",
+          "buffered_ms": "103"
+        },
+        {
+          "event": "READY",
+          "after_ms": "88281",
+          "buffered_ms": "152"
+        }
+      ],
+      "exceptional_events": [],
+      "buffering_events": [
+        {
+          "prepared": "false",
+          "buffered_ms": "0"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "103"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "105"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "91"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "131"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "111"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "136"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "129"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "131"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "124"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "88"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "132"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "91"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "128"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "104"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "120"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "101"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "101"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "116"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "107"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "103"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "121"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "109"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "128"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "97"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "124"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "134"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "112"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "134"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "101"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "99"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "99"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "127"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "133"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "131"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "104"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "88"
+        }
+      ]
+    },
+    "120_180": {
+      "kind": "android",
+      "source": "results/android_20261020_210420",
+      "warmup_seconds": 15,
+      "window_start_ms": 5392330.0,
+      "window_end_ms": 5483050.0,
+      "fresh_events": 107,
+      "fresh_stats": 86,
+      "steady_stats": 73,
+      "buffered_all_ms": {
+        "count": 86,
+        "minimum": 109.0,
+        "median": 155.5,
+        "mean": 161.0,
+        "p95": 180.0,
+        "maximum": 462.0
+      },
+      "buffered_steady_ms": {
+        "count": 73,
+        "minimum": 111.0,
+        "median": 157.0,
+        "mean": 154.97260273972603,
+        "p95": 177.0,
+        "maximum": 185.0
+      },
+      "first_third_buffer_ms": {
+        "count": 24,
+        "minimum": 122.0,
+        "median": 149.5,
+        "mean": 150.29166666666666,
+        "p95": 178.0,
+        "maximum": 185.0
+      },
+      "last_third_buffer_ms": {
+        "count": 24,
+        "minimum": 111.0,
+        "median": 160.5,
+        "mean": 157.33333333333334,
+        "p95": 177.0,
+        "maximum": 180.0
+      },
+      "release_lead_ms": {
+        "count": 73,
+        "minimum": 37.045,
+        "median": 44.606,
+        "mean": 44.61715068493151,
+        "p95": 49.271,
+        "maximum": 49.801
+      },
+      "frame_age_ms": {
+        "count": 73,
+        "minimum": -30.0,
+        "median": 14.0,
+        "mean": 12.821917808219178,
+        "p95": 35.0,
+        "maximum": 37.0
+      },
+      "speed": {
+        "count": 73,
+        "minimum": 1.0,
+        "median": 1.0,
+        "mean": 1.0,
+        "p95": 1.0,
+        "maximum": 1.0
+      },
+      "rendered_fps": 29.89431575533151,
+      "rendered_frame_delta": 2212,
+      "observed_span_ms": 73994,
+      "decoder_dropped_delta": 0,
+      "rebuffer_duration_ms": {
+        "count": 4,
+        "minimum": 12,
+        "median": 17.0,
+        "mean": 17.5,
+        "p95": 24,
+        "maximum": 24
+      },
+      "rebuffer_total_ms": 70,
+      "steady_rebuffer_events": 2,
+      "startup": [
+        {
+          "event": "OPEN",
+          "attempt": "1",
+          "uri": "rtsp://192.168.144.129:8554/live",
+          "ethernet": "192.168.144.20",
+          "catch_up": "true"
+        },
+        {
+          "event": "DECODER",
+          "name": "OMX.qcom.video.decoder.avc",
+          "init_duration_ms": "67"
+        },
+        {
+          "event": "FIRST_FRAME",
+          "after_ms": "1005",
+          "buffered_ms": "399",
+          "release_lead_us": "-34"
+        },
+        {
+          "event": "READY",
+          "after_ms": "1009",
+          "buffered_ms": "434"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4931",
+          "buffered_ms": "110"
+        },
+        {
+          "event": "READY",
+          "after_ms": "5937",
+          "buffered_ms": "154"
+        },
+        {
+          "event": "READY",
+          "after_ms": "13760",
+          "buffered_ms": "131"
+        },
+        {
+          "event": "READY",
+          "after_ms": "31826",
+          "buffered_ms": "115"
+        }
+      ],
+      "exceptional_events": [],
+      "buffering_events": [
+        {
+          "prepared": "false",
+          "buffered_ms": "0"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "115"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "102"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "103"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "95"
+        }
+      ]
+    },
+    "recovery": {
+      "kind": "android",
+      "source": "results/android_20261020_210739",
+      "warmup_seconds": 15,
+      "window_start_ms": 5591050.0,
+      "window_end_ms": 5681910.0,
+      "fresh_events": 151,
+      "fresh_stats": 85,
+      "steady_stats": 72,
+      "buffered_all_ms": {
+        "count": 85,
+        "minimum": 99.0,
+        "median": 149.0,
+        "mean": 163.7058823529412,
+        "p95": 221.0,
+        "maximum": 600.0
+      },
+      "buffered_steady_ms": {
+        "count": 72,
+        "minimum": 99.0,
+        "median": 152.5,
+        "mean": 154.48611111111111,
+        "p95": 188.0,
+        "maximum": 357.0
+      },
+      "first_third_buffer_ms": {
+        "count": 24,
+        "minimum": 113.0,
+        "median": 144.5,
+        "mean": 155.625,
+        "p95": 221.0,
+        "maximum": 357.0
+      },
+      "last_third_buffer_ms": {
+        "count": 24,
+        "minimum": 117.0,
+        "median": 159.5,
+        "mean": 157.41666666666666,
+        "p95": 175.0,
+        "maximum": 177.0
+      },
+      "release_lead_ms": {
+        "count": 72,
+        "minimum": -0.053,
+        "median": 43.61,
+        "mean": 43.560069444444444,
+        "p95": 49.353,
+        "maximum": 49.916000000000004
+      },
+      "frame_age_ms": {
+        "count": 72,
+        "minimum": 0.0,
+        "median": 18.0,
+        "mean": 17.65277777777778,
+        "p95": 34.0,
+        "maximum": 68.0
+      },
+      "speed": {
+        "count": 72,
+        "minimum": 1.0,
+        "median": 1.0,
+        "mean": 1.0097222222222222,
+        "p95": 1.1,
+        "maximum": 1.2
+      },
+      "rendered_fps": 29.834761321909426,
+      "rendered_frame_delta": 2145,
+      "observed_span_ms": 71896,
+      "decoder_dropped_delta": 0,
+      "rebuffer_duration_ms": {
+        "count": 17,
+        "minimum": 4,
+        "median": 16,
+        "mean": 136.23529411764707,
+        "p95": 1872,
+        "maximum": 1872
+      },
+      "rebuffer_total_ms": 2316,
+      "steady_rebuffer_events": 16,
+      "startup": [
+        {
+          "event": "OPEN",
+          "attempt": "1",
+          "uri": "rtsp://192.168.144.129:8554/live",
+          "ethernet": "192.168.144.20",
+          "catch_up": "true"
+        },
+        {
+          "event": "DECODER",
+          "name": "OMX.qcom.video.decoder.avc",
+          "init_duration_ms": "166"
+        },
+        {
+          "event": "FIRST_FRAME",
+          "after_ms": "1137",
+          "buffered_ms": "565",
+          "release_lead_us": "-43"
+        },
+        {
+          "event": "READY",
+          "after_ms": "1142",
+          "buffered_ms": "563"
+        },
+        {
+          "event": "READY",
+          "after_ms": "5153",
+          "buffered_ms": "115"
+        },
+        {
+          "event": "READY",
+          "after_ms": "18230",
+          "buffered_ms": "188"
+        },
+        {
+          "event": "READY",
+          "after_ms": "19904",
+          "buffered_ms": "137"
+        },
+        {
+          "event": "READY",
+          "after_ms": "20198",
+          "buffered_ms": "122"
+        },
+        {
+          "event": "READY",
+          "after_ms": "22259",
+          "buffered_ms": "154"
+        },
+        {
+          "event": "READY",
+          "after_ms": "26257",
+          "buffered_ms": "192"
+        },
+        {
+          "event": "READY",
+          "after_ms": "27671",
+          "buffered_ms": "128"
+        },
+        {
+          "event": "READY",
+          "after_ms": "28248",
+          "buffered_ms": "142"
+        },
+        {
+          "event": "READY",
+          "after_ms": "30272",
+          "buffered_ms": "140"
+        },
+        {
+          "event": "READY",
+          "after_ms": "36688",
+          "buffered_ms": "350"
+        },
+        {
+          "event": "READY",
+          "after_ms": "39488",
+          "buffered_ms": "153"
+        },
+        {
+          "event": "READY",
+          "after_ms": "48492",
+          "buffered_ms": "91"
+        },
+        {
+          "event": "READY",
+          "after_ms": "58582",
+          "buffered_ms": "185"
+        },
+        {
+          "event": "OPEN",
+          "attempt": "1",
+          "uri": "rtsp://192.168.144.129:8554/live",
+          "ethernet": "192.168.144.20",
+          "catch_up": "true"
+        },
+        {
+          "event": "DECODER",
+          "name": "OMX.qcom.video.decoder.avc",
+          "init_duration_ms": "49"
+        },
+        {
+          "event": "FIRST_FRAME",
+          "after_ms": "374",
+          "buffered_ms": "199",
+          "release_lead_us": "-53"
+        },
+        {
+          "event": "READY",
+          "after_ms": "382",
+          "buffered_ms": "195"
+        },
+        {
+          "event": "READY",
+          "after_ms": "1972",
+          "buffered_ms": "132"
+        },
+        {
+          "event": "READY",
+          "after_ms": "2295",
+          "buffered_ms": "122"
+        },
+        {
+          "event": "READY",
+          "after_ms": "3317",
+          "buffered_ms": "166"
+        }
+      ],
+      "exceptional_events": [
+        {
+          "wall_time_ms": "1792501721532",
+          "elapsed_realtime_ms": "5654290",
+          "event": "STALL_TIMEOUT",
+          "details": "after_ms=61891",
+          "elapsed_ms": 5654290,
+          "fields": {
+            "after_ms": "61891"
+          }
+        }
+      ],
+      "buffering_events": [
+        {
+          "prepared": "false",
+          "buffered_ms": "0"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "94"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "157"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "106"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "122"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "157"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "156"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "134"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "148"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "148"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "63"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "126"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "102"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "162"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "61"
+        },
+        {
+          "prepared": "false",
+          "buffered_ms": "0"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "96"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "88"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "97"
+        }
+      ]
+    },
+    "final": {
+      "kind": "android",
+      "source": "results/android_20261020_211129",
+      "warmup_seconds": 15,
+      "window_start_ms": 5821660.0,
+      "window_end_ms": 5897760.0,
+      "fresh_events": 93,
+      "fresh_stats": 72,
+      "steady_stats": 60,
+      "buffered_all_ms": {
+        "count": 72,
+        "minimum": 112.0,
+        "median": 156.0,
+        "mean": 160.95833333333334,
+        "p95": 186.0,
+        "maximum": 454.0
+      },
+      "buffered_steady_ms": {
+        "count": 60,
+        "minimum": 112.0,
+        "median": 156.0,
+        "mean": 154.01666666666668,
+        "p95": 173.0,
+        "maximum": 186.0
+      },
+      "first_third_buffer_ms": {
+        "count": 20,
+        "minimum": 115.0,
+        "median": 144.5,
+        "mean": 145.6,
+        "p95": 162.0,
+        "maximum": 166.0
+      },
+      "last_third_buffer_ms": {
+        "count": 20,
+        "minimum": 140.0,
+        "median": 159.5,
+        "mean": 158.9,
+        "p95": 172.0,
+        "maximum": 173.0
+      },
+      "release_lead_ms": {
+        "count": 60,
+        "minimum": 24.255,
+        "median": 44.818,
+        "mean": 44.80911666666667,
+        "p95": 49.627,
+        "maximum": 49.901
+      },
+      "frame_age_ms": {
+        "count": 60,
+        "minimum": -8.0,
+        "median": 9.5,
+        "mean": 11.483333333333333,
+        "p95": 31.0,
+        "maximum": 40.0
+      },
+      "speed": {
+        "count": 60,
+        "minimum": 1.0,
+        "median": 1.0,
+        "mean": 1.0,
+        "p95": 1.0,
+        "maximum": 1.0
+      },
+      "rendered_fps": 29.84803135283515,
+      "rendered_frame_delta": 1805,
+      "observed_span_ms": 60473,
+      "decoder_dropped_delta": 0,
+      "rebuffer_duration_ms": {
+        "count": 4,
+        "minimum": 13,
+        "median": 18.0,
+        "mean": 18.5,
+        "p95": 25,
+        "maximum": 25
+      },
+      "rebuffer_total_ms": 74,
+      "steady_rebuffer_events": 2,
+      "startup": [
+        {
+          "event": "OPEN",
+          "attempt": "1",
+          "uri": "rtsp://192.168.144.129:8554/live",
+          "ethernet": "192.168.144.20",
+          "catch_up": "true"
+        },
+        {
+          "event": "DECODER",
+          "name": "OMX.qcom.video.decoder.avc",
+          "init_duration_ms": "57"
+        },
+        {
+          "event": "FIRST_FRAME",
+          "after_ms": "962",
+          "buffered_ms": "437",
+          "release_lead_us": "-33"
+        },
+        {
+          "event": "READY",
+          "after_ms": "967",
+          "buffered_ms": "462"
+        },
+        {
+          "event": "READY",
+          "after_ms": "4936",
+          "buffered_ms": "117"
+        },
+        {
+          "event": "READY",
+          "after_ms": "5950",
+          "buffered_ms": "158"
+        },
+        {
+          "event": "READY",
+          "after_ms": "37099",
+          "buffered_ms": "162"
+        },
+        {
+          "event": "READY",
+          "after_ms": "48146",
+          "buffered_ms": "137"
+        }
+      ],
+      "exceptional_events": [],
+      "buffering_events": [
+        {
+          "prepared": "false",
+          "buffered_ms": "0"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "93"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "132"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "119"
+        },
+        {
+          "prepared": "true",
+          "buffered_ms": "104"
+        }
+      ]
+    }
+  },
+  "final_nano": {
+    "kind": "nano",
+    "samples": 75,
+    "cpu_percent_all_cores": {
+      "count": 74,
+      "minimum": 39.59390862944162,
+      "median": 43.71801346801347,
+      "mean": 47.66745720840378,
+      "p95": 69.83050847457628,
+      "maximum": 76.98675496688742
+    },
+    "eth0_tx_mbps_all_traffic": {
+      "count": 74,
+      "minimum": 5.812541161392381,
+      "median": 6.283476642278007,
+      "mean": 6.266539072165681,
+      "p95": 6.319716407244592,
+      "maximum": 6.4959642210841455
+    },
+    "minimum_mem_available_kb": 3501140,
+    "network_counter_deltas": {
+      "rx_errors": 0,
+      "tx_errors": 0,
+      "rx_dropped": 0,
+      "tx_dropped": 0
+    },
+    "video_counter_deltas": {
+      "received_frames": 2570,
+      "submitted_frames": 2570,
+      "encoded_frames": 2568,
+      "dropped_frames": 0
+    },
+    "status_note": "Status snapshots include setup/teardown sampling overhead; no exact status FPS inferred."
+  },
+  "claim": "Final buffered media median 156 ms vs baseline 175-184 ms; no new glass-to-glass measurement."
+}

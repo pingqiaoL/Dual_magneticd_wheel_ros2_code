@@ -37,7 +37,7 @@ ThicknessNode::ThicknessNode() : Node("thickness_node")
     _status_publish_timer = create_wall_timer(
         std::chrono::milliseconds(STATUS_PUBLISH_PERIOD_MS), [this] { publish_status(); });
 
-    RCLCPP_INFO(get_logger(), "测厚采集节点已启动: device_path=%s baud_rate=%u unit=unknown",
+    RCLCPP_INFO(get_logger(), "测厚采集节点已启动: device_path=%s baud_rate=%u unit=um",
                 _device->config().device_path.c_str(), _device->config().baud_rate);
 }
 
@@ -57,7 +57,7 @@ void ThicknessNode::publish_measurement(const DecodedMeasurement &measurement)
     reading_message.sequence = ++_measurement_sequence;
     reading_message.device_sn = measurement.device_serial_number;
     reading_message.value = measurement.thickness_value;
-    reading_message.unit = reading_message.UNIT_UNKNOWN;
+    reading_message.unit = reading_message.UNIT_UM;
     reading_message.material_raw = measurement.raw_material_code;
     reading_message.finite = std::isfinite(measurement.thickness_value);
     _reading_publisher->publish(reading_message);

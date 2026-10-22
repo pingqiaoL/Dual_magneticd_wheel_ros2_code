@@ -2,26 +2,23 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <robot_interfaces/msg/thickness_reading.hpp>
-#include <robot_interfaces/msg/thickness_status.hpp>
-#include <array>
-#include <cstdint>
-#include <string>
 
-// 当前阶段只订阅并打印，不进行滤波、门控、记录或再次转发。
+// 业务启停与测厚数据转发；使用单线程 executor，不负责设备协议和数传串口。
 class MeasurementManagerNode final : public rclcpp::Node
 {
   public:
     MeasurementManagerNode();
 
-  private:
-    void on_reading(const robot_interfaces::msg::ThicknessReading &reading);
-    void on_status(const robot_interfaces::msg::ThicknessStatus &status);
-    static std::string serial_number_to_text(const std::array<std::uint8_t, 12> &serial_number);
-    static const char *unit_name(std::uint8_t unit);
-    static const char *status_description(const robot_interfaces::msg::ThicknessStatus &status);
+    // 下位机状态订阅未启用；未来在本节点的订阅回调调用此入口。
+    // true 持续发布后续新读数，false 停止发布，不停止仪器采集。
+    void on_measurement_ready(bool is_ready);
 
-    bool _has_status{false};
-    robot_interfaces::msg::ThicknessStatus _last_status;
-    rclcpp::Subscription<robot_interfaces::msg::ThicknessReading>::SharedPtr _reading_subscription;
-    rclcpp::Subscription<robot_interfaces::msg::ThicknessStatus>::SharedPtr _status_subscription;
+  private:
+    void update_data(const robot_interfaces::msg::ThicknessReading &thick_data);
+
+    bool _is_measurement_enabled{false};
+    rclcpp::Time _enabled_at{0, 0, RCL_ROS_TIME};
+    rclcpp::Subscription<robot_interfaces::msg::ThicknessReading>::SharedPtr
+        _thick_data_subscription;
+    rclcpp::Publisher<robot_interfaces::msg::ThicknessReading>::SharedPtr _processed_data_publisher;
 };

@@ -2,7 +2,7 @@
 <package format="3">
   <name>robot_interfaces</name>
   <version>0.1.0</version>
-  <description>测厚原始读数和仪器通信状态两个消息接口</description>
+  <description>测厚读数与仪器通信状态接口</description>
   <maintainer email="a46581807@gmail.com">robot</maintainer>
   <license>TODO: License declaration</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
