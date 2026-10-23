@@ -1,0 +1,1 @@
+monotonic_ns,cpu_total_ticks,cpu_idle_ticks,mem_available,eth0_tx_bytes,eth0_rx_bytes,eth0_tx_dropped,eth0_rx_dropped,eth0_tx_errors,eth0_rx_errors,thermal_millic

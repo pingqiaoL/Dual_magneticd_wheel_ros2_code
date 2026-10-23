@@ -32,12 +32,14 @@ def main():
     logs = Path("/workspace/log/video_20261019")
     logs.mkdir(parents=True, exist_ok=True)
     mode = "hardware" if arguments.hardware else "synthetic"
-    width, height, fps = (1280, 720, 30) if arguments.hardware else (320, 240, 15)
+    width, height, fps = (1920, 1080, 30) if arguments.hardware else (320, 240, 15)
+    capture_fps = 60 if arguments.hardware else fps
     with socket.socket() as probe:
         probe.bind(("127.0.0.1", 0))
         port = probe.getsockname()[1]
     status = {}
     raw_frames = []
+    yuv_frames = []
     info_messages = []
     receivers = []
     decoded_counts = {}
@@ -46,7 +48,7 @@ def main():
     process = subprocess.Popen([
         "ros2", "launch", "video_streamer_transmission", "video.launch.xml",
         f"source_mode:={'camera' if arguments.hardware else 'test'}",
-        f"width:={width}", f"height:={height}", f"frame_rate:={fps}",
+        f"width:={width}", f"height:={height}", f"frame_rate:={fps}", f"capture_frame_rate:={capture_fps}",
         f"rtsp_port:={port}"], stdout=handle, stderr=subprocess.STDOUT, start_new_session=True)
 
     def receive_status(message):
@@ -58,6 +60,9 @@ def main():
     # 第二路图像消费者模拟后续视觉节点；只保存计数和布局，不囤积图像。
     node.create_subscription(Image, "/camera/image_raw",
         lambda image: raw_frames.append((image.width, image.height, image.encoding, len(image.data))),
+        qos_profile_sensor_data)
+    node.create_subscription(Image, "/camera/image_yuv",
+        lambda image: yuv_frames.append((image.width, image.height, image.encoding, len(image.data))),
         qos_profile_sensor_data)
     node.create_subscription(CameraInfo, "/camera/camera_info", info_messages.append,
                               qos_profile_sensor_data)
@@ -110,6 +115,7 @@ def main():
              "capture/composition did not start")
         assert status["video_stream"][0] == "LISTENING"
         assert raw_frames[-1] == (width, height, "bgr8", width * height * 3)
+        assert yuv_frames[-1] == (width, height, "yuv420", width * height * 3 // 2)
         assert info_messages and info_messages[-1].k[0] == 0.0
         enable_client = node.create_client(SetBool, "/video/set_enabled")
         first_receiver = receiver()
@@ -166,26 +172,26 @@ def main():
         before_idle = int(status["video_stream"][1]["encoded_frames"])
         spin(1.2)
         assert int(status["video_stream"][1]["encoded_frames"]) == before_idle, "last frame replayed"
-        publisher = node.create_publisher(Image, "/camera/image_raw", qos_profile_sensor_data)
+        publisher = node.create_publisher(Image, "/camera/image_yuv", qos_profile_sensor_data)
         wait(lambda: publisher.get_subscription_count() > 0, "image subscription missing")
         invalid = Image()
         invalid.header.stamp = node.get_clock().now().to_msg()
-        invalid.width, invalid.height, invalid.encoding = width, height, "bgr8"
-        invalid.step = width * 3
+        invalid.width, invalid.height, invalid.encoding = width, height, "yuv420"
+        invalid.step = width
         publisher.publish(invalid)
         stale = Image()
         stale.header.stamp = node.get_clock().now().to_msg()
         stale.header.stamp.sec -= 2
-        stale.width, stale.height, stale.encoding = width, height, "bgr8"
-        stale.step = width * 3
-        stale.data = bytes(width * height * 3)
+        stale.width, stale.height, stale.encoding = width, height, "yuv420"
+        stale.step = width
+        stale.data = bytes(width * height * 3 // 2)
         publisher.publish(stale)
         spin(1.1)
         assert int(status["video_stream"][1]["encoded_frames"]) == before_idle, "invalid image encoded"
         report = {"mode": mode, "width": width, "height": height, "target_fps": fps, "rtsp_port": port,
                   "raw_frames_received": len(raw_frames), "status": status,
                   "decoded_frames_by_receiver": {pipeline.get_name(): count for pipeline, count in decoded_counts.items()},
-                  "checks": ["composition", "second_image_consumer", "H264_RTSP_decode",
+                  "checks": ["composition", "I420_and_BGR_branches", "second_image_consumer", "H264_RTSP_decode",
                              "two_clients", "stop_keeps_capture", "port_conflict_recovery", "restart", "input_timeout",
                              "no_stale_frame_replay", "invalid_and_stale_image_rejected"]}
     finally:

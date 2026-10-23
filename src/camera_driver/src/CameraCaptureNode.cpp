@@ -24,15 +24,19 @@ CameraCaptureNode::CameraCaptureNode(const rclcpp::NodeOptions &options)
         declare_parameter("reconnect_interval_ms", config.reconnect_interval_ms, descriptor);
     _frame_id = declare_parameter<std::string>("frame_id", "camera_optical_frame", descriptor);
     _image_publisher = create_publisher<sensor_msgs::msg::Image>(
-        "/camera/image_raw", rclcpp::SensorDataQoS().keep_last(1));
+        "/camera/image_yuv", rclcpp::SensorDataQoS().keep_last(1));
     _info_publisher = create_publisher<sensor_msgs::msg::CameraInfo>(
         "/camera/camera_info", rclcpp::SensorDataQoS().keep_last(1));
     _status_publisher =
         create_publisher<diagnostic_msgs::msg::DiagnosticArray>("/camera/status", 1);
     _device = std::make_unique<CameraDevice>(config);
     _status_timer = create_wall_timer(std::chrono::seconds(1), [this] { publish_status(); });
-    _device->start([this](std::unique_ptr<CameraFrame> frame) { publish_frame(std::move(frame)); });
-    RCLCPP_INFO(get_logger(), "Camera source=%s device=%s format=%s %dx%d@%d; bgr8 output",
+    _device->start(
+        [this](std::unique_ptr<CameraFrame> frame)
+        {
+            publish_frame(std::move(frame));
+        }); //驱动以后拿到一帧图像，就调用这个函数，把图像交给节点发布
+    RCLCPP_INFO(get_logger(), "Camera source=%s device=%s format=%s %dx%d@%d; I420 output",
                 config.source_mode.c_str(), config.device_path.c_str(), config.input_format.c_str(),
                 config.width, config.height, config.frame_rate);
 }
@@ -50,8 +54,8 @@ void CameraCaptureNode::publish_frame(std::unique_ptr<CameraFrame> frame)
     image->header.frame_id = _frame_id;
     image->width = frame->width;
     image->height = frame->height;
-    image->encoding = "bgr8";
-    image->step = frame->width * 3;
+    image->encoding = "yuv420";
+    image->step = frame->width;
     image->is_bigendian = false;
     image->data = std::move(frame->pixels);
     sensor_msgs::msg::CameraInfo info;

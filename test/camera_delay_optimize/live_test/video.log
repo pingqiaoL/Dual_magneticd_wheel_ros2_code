@@ -1,0 +1,78 @@
+[INFO] [launch]: All log files can be found below /home/robot/.ros/log/2026-10-23-15-04-04-243321-ubuntu-78
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [component_container_mt-1]: process started with pid [94]
+[component_container_mt-1] [INFO] [1792739045.206163077] [delay_video_container]: Load Library: /workspace/log/camera_delay_optimize_20261023_142519_13/install/camera_driver/lib/libcamera_component.so
+[component_container_mt-1] [INFO] [1792739045.218842561] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<camera_driver::CameraCaptureNode>
+[component_container_mt-1] [INFO] [1792739045.218997030] [delay_video_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<camera_driver::CameraCaptureNode>
+[component_container_mt-1] 
+[component_container_mt-1] (component_container_mt:94): GStreamer-WARNING **: 15:04:05.265: External plugin loader failed. This most likely means that the plugin loader helper binary was not found or could not be run. You might need to set the GST_PLUGIN_SCANNER environment variable if your setup is unusual. This should normally not be required though.
+[component_container_mt-1] [INFO] [1792739045.447018510] [camera_capture_node]: Camera source=camera device=/dev/video0 format=MJPEG 1920x1080@30; bgr8 output
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera_capture_node' in container '/delay_video_container'
+[component_container_mt-1] [INFO] [1792739045.454769406] [delay_video_container]: Load Library: /workspace/log/camera_delay_optimize_20261023_142519_13/install/video_streamer_transmission/lib/libvideo_component.so
+[component_container_mt-1] [INFO] [1792739045.480343068] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<camera_delay_test::VisionProbeNode>
+[component_container_mt-1] [INFO] [1792739045.480481249] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<video_streamer_transmission::VideoStreamerNode>
+[component_container_mt-1] [INFO] [1792739045.480500674] [delay_video_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<video_streamer_transmission::VideoStreamerNode>
+[component_container_mt-1] [INFO] [1792739045.490462238] [video_streamer_node]: H264 RTSP :8554/live 1920x1080@30 bitrate=6000 kbps; video starts on client request
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/video_streamer_node' in container '/delay_video_container'
+[component_container_mt-1] [INFO] [1792739045.494958363] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<camera_delay_test::VisionProbeNode>
+[component_container_mt-1] [INFO] [1792739045.495047198] [delay_video_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<camera_delay_test::VisionProbeNode>
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera_delay_vision_probe' in container '/delay_video_container'
+[component_container_mt-1] [INFO] [1792739050.532592691] [camera_delay_vision_probe]: VISION_BGR fps=28.81 size=1920x1080
+[component_container_mt-1] [INFO] [1792739055.552730759] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739060.576416729] [camera_delay_vision_probe]: VISION_BGR fps=29.86 size=1920x1080
+[component_container_mt-1] [INFO] [1792739065.601852747] [camera_delay_vision_probe]: VISION_BGR fps=29.85 size=1920x1080
+[component_container_mt-1] [INFO] [1792739070.615332259] [camera_delay_vision_probe]: VISION_BGR fps=29.92 size=1920x1080
+[component_container_mt-1] [INFO] [1792739075.636734710] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739080.665076675] [camera_delay_vision_probe]: VISION_BGR fps=29.83 size=1920x1080
+[component_container_mt-1] [INFO] [1792739085.669917675] [camera_delay_vision_probe]: VISION_BGR fps=29.97 size=1920x1080
+[component_container_mt-1] [INFO] [1792739090.694414955] [camera_delay_vision_probe]: VISION_BGR fps=29.85 size=1920x1080
+[component_container_mt-1] [INFO] [1792739095.710195563] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739100.730556666] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739105.743458809] [camera_delay_vision_probe]: VISION_BGR fps=29.92 size=1920x1080
+[component_container_mt-1] [INFO] [1792739110.765110363] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739115.784265115] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792739120.804675551] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739125.819662368] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739130.853790350] [camera_delay_vision_probe]: VISION_BGR fps=29.80 size=1920x1080
+[component_container_mt-1] [INFO] [1792739135.862859194] [camera_delay_vision_probe]: VISION_BGR fps=29.95 size=1920x1080
+[component_container_mt-1] [INFO] [1792739140.884465971] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739145.900495340] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792739150.920335336] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739155.942792065] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739160.960056747] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792739165.977218647] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792739170.996711834] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739176.012553897] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739181.030781235] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792739186.046562710] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739191.066600150] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739196.087234424] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739201.108129363] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739206.123870801] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739211.144990999] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739216.163871909] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792739221.189215203] [camera_delay_vision_probe]: VISION_BGR fps=29.85 size=1920x1080
+[component_container_mt-1] [INFO] [1792739226.202446238] [camera_delay_vision_probe]: VISION_BGR fps=29.92 size=1920x1080
+[component_container_mt-1] [INFO] [1792739231.225205331] [camera_delay_vision_probe]: VISION_BGR fps=29.86 size=1920x1080
+[component_container_mt-1] [INFO] [1792739236.248691609] [camera_delay_vision_probe]: VISION_BGR fps=29.86 size=1920x1080
+[component_container_mt-1] [INFO] [1792739241.266339733] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792739246.279987878] [camera_delay_vision_probe]: VISION_BGR fps=29.92 size=1920x1080
+[component_container_mt-1] [INFO] [1792739251.302103250] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739256.320168724] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792739261.342550759] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739266.357018896] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739271.379195999] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739276.403531673] [camera_delay_vision_probe]: VISION_BGR fps=29.85 size=1920x1080
+[component_container_mt-1] [INFO] [1792739281.420350140] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792739286.439604375] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739291.455737360] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792739296.477954781] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792739301.498326773] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739306.513200417] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739311.531352454] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792739316.548891619] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792739321.568397391] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739326.583694399] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792739331.604303472] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739336.623925361] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792739341.644644105] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080

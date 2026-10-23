@@ -1,0 +1,35 @@
+[INFO] [launch]: All log files can be found below /home/robot/.ros/log/2026-10-23-15-31-14-080782-ubuntu-1977
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [component_container_mt-1]: process started with pid [2106]
+[component_container_mt-1] [INFO] [1792740675.075601544] [delay_video_container]: Load Library: /workspace/log/camera_delay_optimize_20261023_142519_13/install/camera_driver/lib/libcamera_component.so
+[component_container_mt-1] [INFO] [1792740675.086913312] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<camera_driver::CameraCaptureNode>
+[component_container_mt-1] [INFO] [1792740675.087105247] [delay_video_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<camera_driver::CameraCaptureNode>
+[component_container_mt-1] [INFO] [1792740675.127682414] [camera_capture_node]: Camera source=camera device=/dev/video0 format=MJPEG 1920x1080@30; bgr8 output
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera_capture_node' in container '/delay_video_container'
+[component_container_mt-1] [INFO] [1792740675.134104855] [delay_video_container]: Load Library: /workspace/log/camera_delay_optimize_20261023_142519_13/install/video_streamer_transmission/lib/libvideo_component.so
+[component_container_mt-1] [INFO] [1792740675.167323744] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<camera_delay_test::VisionProbeNode>
+[component_container_mt-1] [INFO] [1792740675.167477056] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<video_streamer_transmission::VideoStreamerNode>
+[component_container_mt-1] [INFO] [1792740675.167507712] [delay_video_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<video_streamer_transmission::VideoStreamerNode>
+[component_container_mt-1] [INFO] [1792740675.178381497] [video_streamer_node]: H264 RTSP :8554/live 1920x1080@30 bitrate=6000 kbps; video starts on client request
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/video_streamer_node' in container '/delay_video_container'
+[component_container_mt-1] [INFO] [1792740675.182557578] [delay_video_container]: Found class: rclcpp_components::NodeFactoryTemplate<camera_delay_test::VisionProbeNode>
+[component_container_mt-1] [INFO] [1792740675.182643401] [delay_video_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<camera_delay_test::VisionProbeNode>
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera_delay_vision_probe' in container '/delay_video_container'
+[component_container_mt-1] [INFO] [1792740680.204246805] [camera_delay_vision_probe]: VISION_BGR fps=28.11 size=1920x1080
+[component_container_mt-1] [INFO] [1792740685.219141812] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792740690.238298454] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792740695.260012183] [camera_delay_vision_probe]: VISION_BGR fps=29.87 size=1920x1080
+[component_container_mt-1] [INFO] [1792740700.278898712] [camera_delay_vision_probe]: VISION_BGR fps=29.89 size=1920x1080
+[component_container_mt-1] [INFO] [1792740705.294606414] [camera_delay_vision_probe]: VISION_BGR fps=29.91 size=1920x1080
+[component_container_mt-1] [INFO] [1792740710.318559380] [camera_delay_vision_probe]: VISION_BGR fps=29.86 size=1920x1080
+[component_container_mt-1] [INFO] [1792740715.342314387] [camera_delay_vision_probe]: VISION_BGR fps=29.86 size=1920x1080
+[component_container_mt-1] [INFO] [1792740720.358363690] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792740725.370946402] [camera_delay_vision_probe]: VISION_BGR fps=29.92 size=1920x1080
+[component_container_mt-1] [INFO] [1792740730.393808674] [camera_delay_vision_probe]: VISION_BGR fps=29.86 size=1920x1080
+[component_container_mt-1] [INFO] [1792740735.410474577] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792740740.431320987] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792740745.448829273] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792740750.469352991] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792740755.489522307] [camera_delay_vision_probe]: VISION_BGR fps=29.88 size=1920x1080
+[component_container_mt-1] [INFO] [1792740760.506286201] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080
+[component_container_mt-1] [INFO] [1792740765.523789462] [camera_delay_vision_probe]: VISION_BGR fps=29.90 size=1920x1080

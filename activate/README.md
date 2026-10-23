@@ -24,9 +24,11 @@
 | `video_source_mode` | `camera` | `camera` 为真实设备；`test` 为合成测试图，无需摄像头输入 |
 | `video_device_path` | `/dev/video0` | 容器内摄像头路径 |
 | `video_input_format` | `MJPEG` | 输入格式：`MJPEG`、`YUYV`、`H264`，须设备支持 |
-| `video_width` | `1280` | 图像宽度，像素 |
-| `video_height` | `720` | 图像高度，像素 |
-| `video_frame_rate` | `30` | 采集及视频目标帧率，FPS |
+| `video_width` | `1920` | 图像宽度，像素 |
+| `video_height` | `1080` | 图像高度，像素 |
+| `video_capture_frame_rate` | `60` | 摄像头采集帧率，FPS，须设备支持 |
+| `video_frame_rate` | `30` | 编码输出目标帧率，FPS |
+| `video_keyframe_interval_frames` | `10` | 最大关键帧间隔，编码帧数 |
 | `video_bitrate_kbps` | `6000` | H.264 目标码率，kbit/s |
 | `video_rtsp_port` | `8554` | RTSP TCP 监听端口 |
 | `thickness_device_path` | `/dev/ttyACM0` | 容器内测厚仪路径 |
@@ -39,7 +41,7 @@
 
 manager 默认持续发布有效新读数；下位机状态接口预留未订阅，当前没有测厚启停服务。
 
-脚本将 `video_`、`thickness_` 参数映射到对应 XML launch 的参数。视频和设备默认值维护在 XML 中；脚本默认启用数传，直接运行测厚 XML 时其数传默认仍为关闭。关键帧间隔、流路径、超时等高级设置见 `src/video_streamer_transmission/config/video.yaml`，目前不作为脚本参数。
+脚本将 `video_`、`thickness_` 参数映射到对应 XML launch 的参数。视频和设备默认值维护在 XML 中；脚本默认启用数传，直接运行测厚 XML 时其数传默认仍为关闭。流路径、超时等高级设置见 `src/video_streamer_transmission/config/video.yaml`，目前不作为脚本参数。
 
 ```bash
 # 默认整机启动

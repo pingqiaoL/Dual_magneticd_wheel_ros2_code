@@ -26,7 +26,7 @@ VideoStreamerNode::VideoStreamerNode(const rclcpp::NodeOptions &options)
     _stream = std::make_unique<VideoStream>(_config);
     _status_publisher = create_publisher<diagnostic_msgs::msg::DiagnosticArray>("/video/status", 1);
     _image_subscription = create_subscription<sensor_msgs::msg::Image>(
-        "/camera/image_raw", rclcpp::SensorDataQoS().keep_last(1),
+        "/camera/image_yuv", rclcpp::SensorDataQoS().keep_last(1),
         [this](sensor_msgs::msg::Image::ConstSharedPtr image) { on_image(std::move(image)); });
     _enable_service = create_service<std_srvs::srv::SetBool>(
         "/video/set_enabled",
@@ -62,10 +62,10 @@ VideoStreamerNode::~VideoStreamerNode()
 
 void VideoStreamerNode::on_image(sensor_msgs::msg::Image::ConstSharedPtr image)
 {
-    if (image->encoding != "bgr8" || image->width != static_cast<std::uint32_t>(_config.width) ||
+    if (image->encoding != "yuv420" || image->width != static_cast<std::uint32_t>(_config.width) ||
         image->height != static_cast<std::uint32_t>(_config.height) ||
-        image->step != image->width * 3 ||
-        image->data.size() != static_cast<std::size_t>(image->step) * image->height)
+        image->step != image->width ||
+        image->data.size() != static_cast<std::size_t>(image->step) * image->height * 3 / 2)
     {
         RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 5000,
                              "Rejected incompatible image dimensions/stride/encoding");

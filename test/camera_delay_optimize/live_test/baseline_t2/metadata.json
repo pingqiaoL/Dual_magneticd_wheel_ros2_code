@@ -1,0 +1,1 @@
+{"group": "baseline_t2", "width": 1920, "height": 1080, "frame_rate": 30, "bitrate_kbps": 6000, "encoder_variant": "baseline_t2", "encoder_options": "", "vision_branch": true, "warmup": 0, "seconds": 20.0, "started_ns": 20631940759349, "measurement_start_ns": 20631940759349, "measurement_end_ns": 20651940759350}

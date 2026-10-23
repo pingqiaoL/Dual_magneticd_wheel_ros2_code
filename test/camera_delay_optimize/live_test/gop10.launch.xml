@@ -1,0 +1,28 @@
+<launch>
+  <node_container pkg="rclcpp_components" exec="component_container_mt" name="delay_video_container" namespace="/" output="screen">
+    <composable_node pkg="camera_driver" plugin="camera_driver::CameraCaptureNode" name="camera_capture_node">
+      <param from="/workspace/src/video_streamer_transmission/config/video.yaml" />
+      <param name="source_mode" value="camera" />
+      <param name="device_path" value="/dev/video0" />
+      <param name="input_format" value="MJPEG" />
+      <param name="width" value="1920" />
+      <param name="height" value="1080" />
+      <param name="frame_rate" value="30" />
+      <extra_arg name="use_intra_process_comms" value="true" />
+    </composable_node>
+    <composable_node pkg="video_streamer_transmission" plugin="video_streamer_transmission::VideoStreamerNode" name="video_streamer_node">
+      <param from="/workspace/src/video_streamer_transmission/config/video.yaml" />
+      <param name="width" value="1920" />
+      <param name="height" value="1080" />
+      <param name="frame_rate" value="30" />
+      <param name="bitrate_kbps" value="6000" />
+      <param name="keyframe_interval_frames" value="10" />
+      <param name="rtsp_port" value="8554" />
+      <extra_arg name="use_intra_process_comms" value="true" />
+    </composable_node>
+
+    <composable_node pkg="video_streamer_transmission" plugin="camera_delay_test::VisionProbeNode" name="camera_delay_vision_probe">
+      <extra_arg name="use_intra_process_comms" value="true" />
+    </composable_node>
+  </node_container>
+</launch>

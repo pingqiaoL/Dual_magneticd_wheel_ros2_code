@@ -118,7 +118,9 @@ def main():
     parser.add_argument("--width", type=int, default=1920)
     parser.add_argument("--height", type=int, default=1080)
     parser.add_argument("--frame-rate", type=int, default=30)
-    parser.add_argument("--bitrates-kbps", type=int, nargs="+", default=[6000, 8000])
+    parser.add_argument("--bitrate-kbps", type=int, default=6000)
+    parser.add_argument("--only-variant", choices=("veryfast_auto", "superfast_t2", "ultrafast_t2", "ultrafast_t1"))
+    parser.add_argument("--vision-branch", action="store_true")
     parser.add_argument("--warmup", type=float, default=5)
     parser.add_argument("--seconds", type=float, default=30)
     arguments = parser.parse_args()
@@ -163,12 +165,23 @@ def main():
             raise RuntimeError(f"Unexpected nodes still active: {remaining}")
 
         overlay = arguments.runtime_root / "install/setup.bash"
-        for bitrate_kbps in arguments.bitrates_kbps:
-            group = f"1080p_{bitrate_kbps}kbps"
+        encoder_variants = [
+            ("veryfast_auto", "speed-preset=veryfast"),
+            ("superfast_t2", "speed-preset=superfast threads=2 sliced-threads=false"),
+            ("ultrafast_t2", "speed-preset=ultrafast threads=2 sliced-threads=false"),
+            ("ultrafast_t1", "speed-preset=ultrafast threads=1 sliced-threads=false"),
+        ]
+        if arguments.only_variant:
+            encoder_variants = [item for item in encoder_variants if item[0] == arguments.only_variant]
+        for variant_name, encoder_options in encoder_variants:
+            bitrate_kbps = arguments.bitrate_kbps
+            suffix = "_vision" if arguments.vision_branch else ""
+            group = f"1080p30_{bitrate_kbps}kbps_{variant_name}{suffix}"
             directory = run_root / group
             directory.mkdir()
             environment = os.environ.copy()
             environment["CAMERA_DELAY_OUTPUT"] = str(directory)
+            environment["CAMERA_DELAY_X264_OPTIONS"] = encoder_options
             environment["ROS_DOMAIN_ID"] = "79"
             started_ns = time.monotonic_ns()
             metadata = {
@@ -177,6 +190,9 @@ def main():
                 "height": arguments.height,
                 "frame_rate": arguments.frame_rate,
                 "bitrate_kbps": bitrate_kbps,
+                "encoder_variant": variant_name,
+                "encoder_options": encoder_options,
+                "vision_branch": arguments.vision_branch,
                 "warmup": arguments.warmup,
                 "seconds": arguments.seconds,
                 "started_ns": started_ns,
@@ -185,6 +201,10 @@ def main():
             }
             (directory / "metadata.json").write_text(json.dumps(metadata, indent=2))
             launch_file = directory / "test.launch.xml"
+            vision_node = '''
+    <composable_node pkg="video_streamer_transmission" plugin="camera_delay_test::VisionProbeNode" name="camera_delay_vision_probe">
+      <extra_arg name="use_intra_process_comms" value="true" />
+    </composable_node>''' if arguments.vision_branch else ''
             launch_file.write_text(
                 f'''<launch>
   <node_container pkg="rclcpp_components" exec="component_container_mt" name="delay_video_container" namespace="/" output="screen">
@@ -207,6 +227,7 @@ def main():
       <param name="rtsp_port" value="8554" />
       <extra_arg name="use_intra_process_comms" value="true" />
     </composable_node>
+{vision_node}
   </node_container>
 </launch>
 '''

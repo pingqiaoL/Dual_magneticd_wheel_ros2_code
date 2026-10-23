@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "group": "slice_t4",
+    "width": 1920,
+    "height": 1080,
+    "frame_rate": 30,
+    "bitrate_kbps": 6000,
+    "encoder_variant": "slice_t4",
+    "encoder_options": "",
+    "vision_branch": true,
+    "warmup": 0,
+    "seconds": 20.0,
+    "started_ns": 20584920930378,
+    "measurement_start_ns": 20584920930378,
+    "measurement_end_ns": 20604920930379
+  },
+  "metrics": {
+    "capture_pipeline_ms": {
+      "count": 598,
+      "mean": 11.346193683946488,
+      "median": 11.3870035,
+      "p95": 12.702515,
+      "maximum": 14.014402
+    },
+    "copy_and_status_ms": {
+      "count": 598,
+      "mean": 1.1564506120401339,
+      "median": 1.1392975,
+      "p95": 1.369103,
+      "maximum": 1.678571
+    },
+    "publish_prepare_ms": {
+      "count": 598,
+      "mean": 0.17222786454849498,
+      "median": 0.1703015,
+      "p95": 0.218525,
+      "maximum": 0.341947
+    },
+    "ros_to_video_ms": {
+      "count": 595,
+      "mean": 0.3121360016806723,
+      "median": 0.309148,
+      "p95": 0.380251,
+      "maximum": 0.67516
+    },
+    "video_wait_and_copy_ms": {
+      "count": 595,
+      "mean": 3.3192312218487396,
+      "median": 3.241397,
+      "p95": 5.446774,
+      "maximum": 7.353564
+    },
+    "encoder_prequeue_ms": {
+      "count": 595,
+      "mean": 0.354473043697479,
+      "median": 0.286588,
+      "p95": 0.69756,
+      "maximum": 3.574995
+    },
+    "encode_and_parse_ms": {
+      "count": 595,
+      "mean": 14.175224068907562,
+      "median": 14.337413,
+      "p95": 17.469059,
+      "maximum": 19.483621
+    },
+    "video_callback_to_encoded_ms": {
+      "count": 595,
+      "mean": 17.84892833445378,
+      "median": 17.804051,
+      "p95": 21.968693,
+      "maximum": 24.810434
+    },
+    "source_to_encoded_ms": {
+      "count": 595,
+      "mean": 30.83231661512605,
+      "median": 30.931115,
+      "p95": 35.408426,
+      "maximum": 40.099743
+    }
+  },
+  "fps": {
+    "source": 29.9,
+    "sample": 29.9,
+    "copy_complete": 29.9,
+    "publish": 29.9,
+    "video_receive": 29.75,
+    "push": 29.75,
+    "encoder_input": 29.75,
+    "encoded": 29.8,
+    "receive": 0.0,
+    "display_start": 0.0,
+    "convert_end": 0.0,
+    "draw_end": 0.0,
+    "gui_end": 0.0
+  },
+  "encoding_match": {
+    "input_count": 1775,
+    "output_count": 1775,
+    "pts_offset_ns": 3599999994915861,
+    "matched_count": 1775,
+    "match_ratio": 1.0
+  },
+  "malformed_rows": 0,
+  "cpu_total_percent": {
+    "count": 0
+  }
+}

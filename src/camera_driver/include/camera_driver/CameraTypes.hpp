@@ -11,9 +11,9 @@ struct CameraConfig
     std::string source_mode = "camera";
     std::string device_path = "/dev/video0";
     std::string input_format = "MJPEG";
-    int width = 1280;
-    int height = 720;
-    int frame_rate = 30;
+    int width = 1920;
+    int height = 1080;
+    int frame_rate = 60;
     int frame_timeout_ms = 2000;
     int reconnect_interval_ms = 1000;
 };

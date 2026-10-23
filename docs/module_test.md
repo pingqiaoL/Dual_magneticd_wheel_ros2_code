@@ -136,3 +136,34 @@ python3 -c 'import cv2, cv_bridge; print(cv2.__version__)'
 测端到端延迟：摄像头拍摄毫秒计时器，用同一张照片拍下真实计时器和遥控屏幕，计算 `真实时间 − 画面中的时间`，连续采样并记录平均值、最大值。NoMachine 自身会引入显示延迟，因此 OpenCV 窗口与遥控屏幕的差值只能用于相对比较。
 
 Nano 内部分段计时、CV 队列对照和编码测试统一放在 [camera_delay_test](../test/camera_delay_test/README.md)，实测结论见 [测试报告](../test/camera_delay_test/REPORT.md)。
+
+## 2026-10-23 正式视频配置与验证
+
+默认1080p采集60 FPS、编码30 FPS；不支持60 FPS的摄像头使用 `video_capture_frame_rate:=30`。接口分为 `/camera/image_yuv`（I420、编码）和 `/camera/image_raw`（BGR、原图查看），查看器仍订阅后者，不重复打开设备。
+
+```bash
+# 宿主机
+docker start robot_ros2_dev
+docker exec -it robot_ros2_dev bash
+# 容器内（单模块 / 组合 / 总入口任选一个）
+bash /workspace/activate/single_module/camera.sh
+bash /workspace/activate/mix_module/camera_thickness.sh
+bash /workspace/activate/robot.sh
+# 停止相机和视频
+bash /workspace/activate/internal/stop_video.sh
+```
+
+原图窗口请在机载实屏或NoMachine桌面按本文已有图形授权流程进入容器，再执行 `python3 /workspace/tools/view_raw_image.py`。NoMachine自身的桌面传输会增加观察延迟，测真值使用实屏同框计时器。
+
+有限回归测试（自动退出并释放自己的视频进程；执行前关闭其他视频）：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source /workspace/install/setup.bash
+cd /workspace
+colcon test --packages-select camera_driver --event-handlers console_direct+
+python3 tools/test_video_pipeline.py
+python3 tools/test_video_pipeline.py --hardware
+```
+
+测试报告写入 `log/video_20261019/`（沿用原测试目录名），本次结果日期和限制记录在当天开发文档。

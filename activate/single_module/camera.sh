@@ -4,8 +4,8 @@ project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 cd "${project_root}"
 if [[ ${1:-} == --help || ${1:-} == -h ]]; then
   echo '用法: bash activate/single_module/camera.sh [video_source_mode:=camera|test] [video_device_path:=/dev/video0]'
-  echo '      [video_input_format:=MJPEG|YUYV|H264] [video_width:=1280] [video_height:=720]'
-  echo '      [video_frame_rate:=30] [video_bitrate_kbps:=6000] [video_rtsp_port:=8554]'
+  echo '      [video_input_format:=MJPEG|YUYV|H264] [video_width:=1920] [video_height:=1080]'
+  echo '      [video_capture_frame_rate:=60] [video_frame_rate:=30] [video_keyframe_interval_frames:=10] [video_bitrate_kbps:=6000] [video_rtsp_port:=8554]'
   echo '宿主机/容器自适应。默认实际摄像头；测试图像必须显式指定 video_source_mode:=test。'
   echo '再次运行会先停止本工程旧的视频 launch，再按本次参数重新启动。'
   exit 0
@@ -19,7 +19,7 @@ set -- "${launch_arguments[@]}"
 for argument in "$@"; do
   case "${argument}" in
     source_mode:=camera|source_mode:=test|device_path:=/dev/*|input_format:=MJPEG|input_format:=YUYV|input_format:=H264) ;;
-    width:=[0-9]*|height:=[0-9]*|frame_rate:=[0-9]*|bitrate_kbps:=[0-9]*|rtsp_port:=[0-9]*) ;;
+    width:=[0-9]*|height:=[0-9]*|frame_rate:=[0-9]*|capture_frame_rate:=[0-9]*|keyframe_interval_frames:=[0-9]*|bitrate_kbps:=[0-9]*|rtsp_port:=[0-9]*) ;;
     *) echo "不支持的参数: ${argument}" >&2; exit 2 ;;
   esac
 done

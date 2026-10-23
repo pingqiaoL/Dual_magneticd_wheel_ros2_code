@@ -8,11 +8,11 @@ namespace video_streamer_transmission
 {
 struct VideoConfig
 {
-    int width = 1280;
-    int height = 720;
+    int width = 1920;
+    int height = 1080;
     int frame_rate = 30;
     int bitrate_kbps = 6000;
-    int keyframe_interval_frames = 30;
+    int keyframe_interval_frames = 10;
     int rtsp_port = 8554;
     std::string stream_path = "/live";
     int frame_timeout_ms = 2000;

@@ -1,0 +1,1 @@
+{"group": "capture60_t2", "width": 1920, "height": 1080, "frame_rate": 30, "bitrate_kbps": 6000, "encoder_variant": "capture60_t2", "encoder_options": "", "vision_branch": true, "warmup": 0, "seconds": 20.0, "started_ns": 20732278616947, "measurement_start_ns": 20732278616947, "measurement_end_ns": 20752278616948}

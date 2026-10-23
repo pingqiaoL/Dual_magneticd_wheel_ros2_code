@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1700" viewBox="0 0 2200 1700">
+<rect width="100%" height="100%" fill="white"/>
+<text x="45" y="18" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="39" font-weight="700" fill="#152e49">Orin Nano 机载上位机 · 当前代码结构与通信链路</text>
+<text x="46" y="76" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="23" font-weight="400" fill="#66758a">ROS 2 Jazzy · robot_ros2_dev 容器 · 依据正式 src 与 activate 核对 · 2026-10-23</text>
+<rect x="28" y="120" width="2144" height="445" rx="16" fill="#fcfdff" stroke="#0879d7" stroke-width="2"/>
+<text x="48" y="135" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="30" font-weight="700" fill="#0879d7">① 测厚采集、测量管理与遥控数传</text>
+<rect x="65" y="215" width="245" height="140" rx="13" fill="#eef7ff" stroke="#0879d7" stroke-width="2"/>
+<text x="187.5" y="231" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">测厚仪 / USB</text>
+<text x="187.5" y="267" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">/dev/ttyACM0</text>
+<text x="187.5" y="295" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">115200 / 8N1</text>
+<text x="187.5" y="323" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">厚度单位 μm</text>
+<rect x="395" y="205" width="350" height="165" rx="13" fill="#eef7ff" stroke="#0879d7" stroke-width="2"/>
+<text x="570.0" y="221" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">ThicknessNode</text>
+<text x="570.0" y="257" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">包：thickness_usb_driver</text>
+<text x="570.0" y="285" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">定时推进设备通信</text>
+<text x="570.0" y="313" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">收到新测量帧才发布</text>
+<rect x="910" y="205" width="410" height="165" rx="13" fill="#eef7ff" stroke="#0879d7" stroke-width="2"/>
+<text x="1115.0" y="221" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">MeasurementManagerNode</text>
+<text x="1115.0" y="257" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">包：measurement_manager</text>
+<text x="1115.0" y="285" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">update_data(thick_data)</text>
+<text x="1115.0" y="313" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">有效性 / 启用时间检查后转发</text>
+<rect x="1520" y="205" width="410" height="165" rx="13" fill="#eef7ff" stroke="#0879d7" stroke-width="2"/>
+<text x="1725.0" y="221" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">TelemetryBridgeNode</text>
+<text x="1725.0" y="257" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">包：telemetry_bridge</text>
+<text x="1725.0" y="285" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">订阅测厚，只提交业务发送</text>
+<text x="1725.0" y="313" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="20" font-weight="400" fill="#152e49">send_named_float(&quot;THICKNESS&quot;, value)</text>
+<polyline points="310,280 395,280" fill="none" stroke="#0879d7" stroke-width="3" />
+<polygon points="395,280 382.7138441335348,286.71195754045885 382.7138441335348,273.28804245954115" fill="#0879d7"/>
+<rect x="317.5" y="240" width="69.0" height="28" fill="white"/>
+<text x="352" y="242" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#0879d7">设备帧</text>
+<polyline points="745,280 910,280" fill="none" stroke="#0879d7" stroke-width="3" />
+<polygon points="910,280 897.7138441335347,286.71195754045885 897.7138441335347,273.28804245954115" fill="#0879d7"/>
+<rect x="769.5" y="232" width="113.0" height="28" fill="white"/>
+<text x="826" y="234" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#0879d7">/thickness/</text>
+<rect x="785.0" y="257" width="82.0" height="28" fill="white"/>
+<text x="826" y="259" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#0879d7">reading</text>
+<polyline points="1320,280 1520,280" fill="none" stroke="#0879d7" stroke-width="3" />
+<polygon points="1520,280 1507.7138441335348,286.71195754045885 1507.7138441335348,273.28804245954115" fill="#0879d7"/>
+<rect x="1342.5" y="231" width="155.0" height="28" fill="white"/>
+<text x="1420" y="233" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#0879d7">/measurement/</text>
+<rect x="1371.5" y="256" width="97.0" height="28" fill="white"/>
+<text x="1420" y="258" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#0879d7">thickness</text>
+<rect x="395" y="425" width="350" height="110" rx="13" fill="#eef7ff" stroke="#0879d7" stroke-width="2"/>
+<text x="570.0" y="441" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">ThicknessDevice</text>
+<text x="570.0" y="477" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="20" font-weight="400" fill="#152e49">ThicknessProtocol：帧解析 / CRC</text>
+<text x="570.0" y="505" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">发现、心跳、状态查询与重连</text>
+<polyline points="570,370 570,425" fill="none" stroke="#0879d7" stroke-width="3" />
+<polygon points="570,425 563.2880424595412,412.7138441335348 576.7119575404588,412.7138441335348" fill="#0879d7"/>
+<rect x="591.0" y="384" width="108.0" height="28" fill="white"/>
+<text x="645" y="386" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#0879d7">调用 / 返回</text>
+<rect x="910" y="425" width="410" height="110" rx="13" fill="#f2f5f8" stroke="#66758a" stroke-width="2"/>
+<text x="1115.0" y="441" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="24" font-weight="700" fill="#152e49">预留：on_measurement_ready()</text>
+<text x="1115.0" y="477" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">当前默认开启；未订阅下位机状态</text>
+<text x="1115.0" y="505" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">当前没有测厚启停服务</text>
+<polyline points="1115,425 1115,370" fill="none" stroke="#66758a" stroke-width="3" stroke-dasharray="9 7"/>
+<polygon points="1115,370 1121.7119575404588,382.2861558664652 1108.2880424595412,382.2861558664652" fill="#66758a"/>
+<rect x="1520" y="405" width="410" height="140" rx="13" fill="#eef7ff" stroke="#0879d7" stroke-width="2"/>
+<text x="1725.0" y="421" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">TelemetryDriver</text>
+<text x="1725.0" y="457" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">工作线程 + 发送队列 + poll/eventfd</text>
+<text x="1725.0" y="485" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">RemoteProtocol：MAVLink 2 编解码</text>
+<text x="1725.0" y="513" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">自动心跳、收发、重连与状态快照</text>
+<polyline points="1725,370 1725,405" fill="none" stroke="#0879d7" stroke-width="3" />
+<polygon points="1725,405 1718.2880424595412,392.7138441335348 1731.7119575404588,392.7138441335348" fill="#0879d7"/>
+<rect x="1985" y="405" width="155" height="140" rx="13" fill="#eef7ff" stroke="#0879d7" stroke-width="2"/>
+<text x="2062.5" y="421" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="700" fill="#152e49">MK32 天空端</text>
+<text x="2062.5" y="457" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">UART</text>
+<text x="2062.5" y="485" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#152e49">/dev/ttyTHS0</text>
+<text x="2062.5" y="513" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">115200</text>
+<polyline points="1930,475 1985,475" fill="none" stroke="#0879d7" stroke-width="3" />
+<polygon points="1985,475 1972.7138441335348,481.71195754045885 1972.7138441335348,468.28804245954115" fill="#0879d7"/>
+<text x="70" y="389" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="20" font-weight="400" fill="#66758a">状态输出：/thickness/status</text>
+<text x="70" y="540" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="20" font-weight="400" fill="#66758a">STM_LINK：当前由应用节点每秒提交固定 0，真实下位机状态尚未接入。</text>
+<rect x="28" y="590" width="2144" height="620" rx="16" fill="#fcfdff" stroke="#178747" stroke-width="2"/>
+<text x="48" y="605" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="30" font-weight="700" fill="#178747">② 摄像头单次采集、YUV 分流与 H.264 图传</text>
+<rect x="65" y="705" width="250" height="140" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="190.0" y="721" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">USB 摄像头</text>
+<text x="190.0" y="757" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">/dev/video0 · MJPEG</text>
+<text x="190.0" y="785" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#152e49">默认 1920×1080 @ 60</text>
+<text x="190.0" y="813" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="20" font-weight="400" fill="#152e49">设备支持才可使用该模式</text>
+<rect x="420" y="700" width="390" height="145" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="615.0" y="716" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">CameraCaptureNode</text>
+<text x="615.0" y="752" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">包：camera_driver</text>
+<text x="615.0" y="780" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">发布 I420 / yuv420 图像</text>
+<text x="615.0" y="808" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">CameraInfo 未标定；发布诊断</text>
+<rect x="420" y="925" width="390" height="135" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="615.0" y="941" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">CameraDevice</text>
+<text x="615.0" y="977" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">V4L2 / GStreamer → 解码 → I420</text>
+<text x="615.0" y="1005" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">采集线程、超时与自动重连</text>
+<polyline points="315,775 365,775 365,990 420,990" fill="none" stroke="#178747" stroke-width="3" />
+<polygon points="420,990 407.7138441335348,996.7119575404588 407.7138441335348,983.2880424595412" fill="#178747"/>
+<polyline points="615,925 615,845" fill="none" stroke="#178747" stroke-width="3" />
+<polygon points="615,845 621.7119575404588,857.2861558664653 608.2880424595412,857.2861558664653" fill="#178747"/>
+<rect x="674.0" y="877" width="72.0" height="29" fill="white"/>
+<text x="710" y="879" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="20" font-weight="400" fill="#178747">帧回调</text>
+<rect x="1030" y="700" width="420" height="145" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="1240.0" y="716" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">VideoStreamerNode</text>
+<text x="1240.0" y="752" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">包：video_streamer_transmission</text>
+<text x="1240.0" y="780" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">尺寸 / 布局 / 帧龄检查</text>
+<text x="1240.0" y="808" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">持有 VideoStream 并提交最新帧</text>
+<polyline points="810,775 1030,775" fill="none" stroke="#178747" stroke-width="3" />
+<polygon points="1030,775 1017.7138441335347,781.7119575404588 1017.7138441335347,768.2880424595412" fill="#178747"/>
+<rect x="872.0" y="722" width="96.0" height="28" fill="white"/>
+<text x="920" y="724" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#178747">/camera/</text>
+<rect x="865.0" y="749" width="110.0" height="28" fill="white"/>
+<text x="920" y="751" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="19" font-weight="400" fill="#178747">image_yuv</text>
+<rect x="1580" y="700" width="510" height="145" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="1835.0" y="716" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">VideoStream + VideoPipeline</text>
+<text x="1835.0" y="752" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">appsrc → x264enc → h264parse</text>
+<text x="1835.0" y="780" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">rtph264pay → GStreamer RTSP Server</text>
+<text x="1835.0" y="808" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">客户端请求后开始视频编码</text>
+<polyline points="1450,775 1580,775" fill="none" stroke="#178747" stroke-width="3" />
+<polygon points="1580,775 1567.7138441335348,781.7119575404588 1567.7138441335348,768.2880424595412" fill="#178747"/>
+<rect x="1475.0" y="735" width="80.0" height="29" fill="white"/>
+<text x="1515" y="737" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="20" font-weight="400" fill="#178747">I420 帧</text>
+<polyline points="1835,845 1835,915" fill="none" stroke="#178747" stroke-width="3" />
+<polygon points="1835,915 1828.2880424595412,902.7138441335347 1841.7119575404588,902.7138441335347" fill="#178747"/>
+<rect x="1580" y="915" width="510" height="115" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="1835.0" y="931" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">天空端网口 → 遥控端播放器</text>
+<text x="1835.0" y="967" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">RTSP :8554/live；支持协商 RTP 传输</text>
+<text x="1835.0" y="995" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">默认 1080p30 / 6000 kbps / GOP 10</text>
+<rect x="1030" y="1025" width="420" height="125" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="1240.0" y="1041" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">BgrConverterNode</text>
+<text x="1240.0" y="1077" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">按需 I420 → BGR；有订阅者才转换</text>
+<text x="1240.0" y="1105" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">同属 camera_driver 包</text>
+<polyline points="920,775 920,1087 1030,1087" fill="none" stroke="#178747" stroke-width="3" />
+<polygon points="1030,1087 1017.7138441335347,1093.7119575404588 1017.7138441335347,1080.2880424595412" fill="#178747"/>
+<rect x="1580" y="1080" width="510" height="90" rx="13" fill="#eff9f2" stroke="#178747" stroke-width="2"/>
+<text x="1835.0" y="1096" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">原始图像查看 / 算法消费者</text>
+<text x="1835.0" y="1132" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">OpenCV 查看已有；视觉算法后续接入</text>
+<polyline points="1450,1125 1580,1125" fill="none" stroke="#178747" stroke-width="3" />
+<polygon points="1580,1125 1567.7138441335348,1131.7119575404588 1567.7138441335348,1118.2880424595412" fill="#178747"/>
+<rect x="1472.5" y="1054" width="85.0" height="26" fill="white"/>
+<text x="1515" y="1056" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="17" font-weight="400" fill="#178747">/camera/</text>
+<rect x="1465.5" y="1078" width="99.0" height="26" fill="white"/>
+<text x="1515" y="1080" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="17" font-weight="400" fill="#178747">image_raw</text>
+<rect x="1490.0" y="1101" width="50.0" height="26" fill="white"/>
+<text x="1515" y="1103" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="17" font-weight="400" fill="#178747">bgr8</text>
+<text x="65" y="1101" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#178747">视频组件同容器：component_container_mt</text>
+<text x="65" y="1135" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#178747">启用 intra-process；图像 QoS keep_last(1)</text>
+<text x="65" y="1169" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#66758a">状态：/camera/status、/camera/camera_info、/video/status；视频开关：/video/set_enabled</text>
+<rect x="28" y="1240" width="2144" height="300" rx="16" fill="#fcfdff" stroke="#66758a" stroke-width="2"/>
+<text x="48" y="1255" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="30" font-weight="700" fill="#66758a">③ 启动编排、共享工具与接口定义</text>
+<rect x="65" y="1320" width="340" height="140" rx="13" fill="#f2f5f8" stroke="#66758a" stroke-width="2"/>
+<text x="235.0" y="1336" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">activate / robot.sh</text>
+<text x="235.0" y="1372" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">调用 mix_module/</text>
+<text x="235.0" y="1400" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">camera_thickness.sh</text>
+<rect x="505" y="1320" width="475" height="140" rx="13" fill="#f2f5f8" stroke="#66758a" stroke-width="2"/>
+<text x="742.5" y="1336" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">单模块 / 组合启动</text>
+<text x="742.5" y="1372" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">single_module/camera.sh</text>
+<text x="742.5" y="1400" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">single_module/thickness.sh</text>
+<text x="742.5" y="1428" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">XML launch / 参数 → 各节点</text>
+<polyline points="405,1390 505,1390" fill="none" stroke="#66758a" stroke-width="3" />
+<polygon points="505,1390 492.7138441335348,1396.7119575404588 492.7138441335348,1383.2880424595412" fill="#66758a"/>
+<rect x="1090" y="1320" width="475" height="140" rx="13" fill="#f2f5f8" stroke="#66758a" stroke-width="2"/>
+<text x="1327.5" y="1336" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">robot_common</text>
+<text x="1327.5" y="1372" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">SerialPort：跨包串口字节读写</text>
+<text x="1327.5" y="1400" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">SteadyClock：时间 / 截止时间工具</text>
+<text x="1327.5" y="1428" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">无 ROS 节点；无业务状态</text>
+<rect x="1675" y="1320" width="465" height="140" rx="13" fill="#f2f5f8" stroke="#66758a" stroke-width="2"/>
+<text x="1907.5" y="1336" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">robot_interfaces</text>
+<text x="1907.5" y="1372" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">ThicknessReading.msg</text>
+<text x="1907.5" y="1400" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">ThicknessStatus.msg</text>
+<text x="1907.5" y="1428" dominant-baseline="text-before-edge" text-anchor="middle" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="22" font-weight="400" fill="#152e49">源定义在 src；install 为生成产物</text>
+<text x="65" y="1496" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#66758a">部署边界：宿主机 /home/nvidia/robot_ros2 → 容器 /workspace；启动脚本支持从宿主机自动进入容器。</text>
+<text x="55" y="1564" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="25" font-weight="700" fill="#152e49">正式代码与测试边界</text>
+<text x="55" y="1605" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#66758a">• 当前正式 x264：threads=2、sliced-threads=true；单线程 FPV 兼容编码与请求代理仍只在 test/camera_delay_optimize/fpv_compat。</text>
+<text x="55" y="1641" dominant-baseline="text-before-edge" text-anchor="start" font-family="Microsoft YaHei,Noto Sans CJK SC,sans-serif" font-size="21" font-weight="400" fill="#66758a">• STM32 的 XRCE-DDS、下位机就绪信号与视觉算法尚未接入；图中不把这些规划画成已实现节点。</text>
+</svg>

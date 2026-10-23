@@ -28,12 +28,12 @@ std::string VideoPipeline::build_description(const VideoConfig &config)
     std::ostringstream description;
     description << "( appsrc name=frames is-live=true format=time block=false "
                    "max-buffers=1 max-bytes=0 max-time=0 leaky-type=downstream "
-                   "caps=video/x-raw,format=BGR,width="
+                   "caps=video/x-raw,format=I420,width="
                 << config.width << ",height=" << config.height << ",framerate=" << config.frame_rate
                 << "/1 ! "
                    "queue max-size-buffers=1 max-size-bytes=0 max-size-time=0 leaky=downstream ! "
-                   "videoconvert ! video/x-raw,format=I420 ! "
-                   "x264enc tune=zerolatency speed-preset=veryfast bframes=0 "
+                   "x264enc tune=zerolatency speed-preset=ultrafast threads=2 sliced-threads=true "
+                   "bframes=0 "
                    "bitrate="
                 << config.bitrate_kbps << " key-int-max=" << config.keyframe_interval_frames
                 << " ! video/x-h264,profile=baseline ! h264parse name=encoded ! "

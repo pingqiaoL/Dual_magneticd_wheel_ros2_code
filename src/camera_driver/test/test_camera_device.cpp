@@ -17,7 +17,7 @@ int main()
         [&frames](std::unique_ptr<CameraFrame> frame)
         {
             if (frame->width != 320 || frame->height != 240 ||
-                frame->pixels.size() != 320 * 240 * 3)
+                frame->pixels.size() != 320 * 240 * 3 / 2)
             {
                 throw std::runtime_error("invalid captured frame layout");
             }

@@ -32,8 +32,8 @@ bash /workspace/activate/robot.sh
 
 | 功能 | 默认配置 |
 |---|---|
-| 摄像头 | `/dev/video0`，MJPEG，1280 × 720，30 FPS |
-| 视频 | H.264，6000 kbit/s，RTSP `:8554/live` |
+| 摄像头 | `/dev/video0`，MJPEG，1920 × 1080，采集60 FPS |
+| 视频 | H.264，输出30 FPS，6000 kbit/s，GOP 10，RTSP `:8554/live` |
 | 测厚仪 | `/dev/ttyACM0`，115200 |
 | 数传 | `/dev/ttyTHS0`，115200，默认启用 |
 

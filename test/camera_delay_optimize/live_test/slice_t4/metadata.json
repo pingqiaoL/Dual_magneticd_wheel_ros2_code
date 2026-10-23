@@ -1,0 +1,1 @@
+{"group": "slice_t4", "width": 1920, "height": 1080, "frame_rate": 30, "bitrate_kbps": 6000, "encoder_variant": "slice_t4", "encoder_options": "", "vision_branch": true, "warmup": 0, "seconds": 20.0, "started_ns": 20584920930378, "measurement_start_ns": 20584920930378, "measurement_end_ns": 20604920930379}

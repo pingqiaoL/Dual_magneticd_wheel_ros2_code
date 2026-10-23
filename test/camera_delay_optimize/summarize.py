@@ -59,7 +59,7 @@ def main():
         raise RuntimeError("Test did not complete; refusing to summarize partial data")
 
     results = {}
-    for directory in sorted(arguments.run_directory.glob("1080p_*kbps")):
+    for directory in sorted(arguments.run_directory.glob("1080p30_*")):
         if not (directory / "completed").exists():
             raise RuntimeError(f"Incomplete variant: {directory}")
         result = analyze(directory)
@@ -71,7 +71,7 @@ def main():
     (arguments.run_directory / "summary.json").write_text(json.dumps(results, indent=2))
 
     lines = [
-        "# 1080p 采集与码率延迟测试",
+        "# 1080p30 编码参数延迟测试",
         "",
         "单位为 ms；延迟列为中位数 / P95。软件时间从 V4L2 输出开始，不含曝光、摄像头内部缓存、无线链路和遥控器显示。",
         "",

@@ -11,6 +11,7 @@
   <depend>rclcpp_components</depend>
   <depend>rcl_interfaces</depend>
   <depend>sensor_msgs</depend>
+  <depend>libopencv-dev</depend>
   <depend>diagnostic_msgs</depend>
   <depend>libgstreamer1.0-dev</depend>
   <depend>libgstreamer-plugins-base1.0-dev</depend>

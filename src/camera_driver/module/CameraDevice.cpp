@@ -102,7 +102,7 @@ void CameraDevice::capture_loop()
         {
             description << "h264parse ! avdec_h264 ! ";
         }
-        description << "videoconvert ! video/x-raw,format=BGR ! "
+        description << "videoconvert ! video/x-raw,format=I420 ! "
                        "appsink name=frames max-buffers=1 drop=true sync=false";
         GError *error = nullptr;
         GstElement *pipeline = gst_parse_launch(description.str().c_str(), &error);
@@ -154,26 +154,34 @@ void CameraDevice::capture_loop()
                 gst_video_info_init(&info);
                 GstVideoFrame video_frame;
                 if (!gst_video_info_from_caps(&info, gst_sample_get_caps(sample)) ||
-                    GST_VIDEO_INFO_FORMAT(&info) != GST_VIDEO_FORMAT_BGR ||
+                    GST_VIDEO_INFO_FORMAT(&info) != GST_VIDEO_FORMAT_I420 ||
                     !gst_video_frame_map(&video_frame, &info, gst_sample_get_buffer(sample),
                                          GST_MAP_READ))
                 {
                     gst_sample_unref(sample);
-                    reason = "invalid BGR camera sample";
+                    reason = "invalid I420 camera sample";
                     break;
                 }
                 auto frame = std::make_unique<CameraFrame>();
                 frame->width = GST_VIDEO_INFO_WIDTH(&info);
                 frame->height = GST_VIDEO_INFO_HEIGHT(&info);
-                const std::size_t row_bytes = static_cast<std::size_t>(frame->width) * 3;
-                frame->pixels.resize(row_bytes * frame->height);
-                const auto *pixels =
-                    static_cast<const std::uint8_t *>(GST_VIDEO_FRAME_PLANE_DATA(&video_frame, 0));
-                const auto stride = GST_VIDEO_FRAME_PLANE_STRIDE(&video_frame, 0);
-                for (std::uint32_t row = 0; row < frame->height; ++row)
+                const std::size_t y_size = static_cast<std::size_t>(frame->width) * frame->height;
+                const std::size_t chroma_size = y_size / 4;
+                frame->pixels.resize(y_size + 2 * chroma_size);
+                const std::size_t plane_offsets[3]{0, y_size, y_size + chroma_size};
+                const std::size_t row_bytes[3]{frame->width, frame->width / 2, frame->width / 2};
+                const std::size_t rows[3]{frame->height, frame->height / 2, frame->height / 2};
+                for (std::size_t plane = 0; plane < 3; ++plane)
                 {
-                    std::memcpy(frame->pixels.data() + row * row_bytes, pixels + row * stride,
-                                row_bytes);
+                    const auto *pixels = static_cast<const std::uint8_t *>(
+                        GST_VIDEO_FRAME_PLANE_DATA(&video_frame, plane));
+                    const auto stride = GST_VIDEO_FRAME_PLANE_STRIDE(&video_frame, plane);
+                    for (std::size_t row = 0; row < rows[plane]; ++row)
+                    {
+                        std::memcpy(frame->pixels.data() + plane_offsets[plane] +
+                                        row * row_bytes[plane],
+                                    pixels + row * stride, row_bytes[plane]);
+                    }
                 }
                 gst_video_frame_unmap(&video_frame);
                 gst_sample_unref(sample);

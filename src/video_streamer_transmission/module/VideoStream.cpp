@@ -243,10 +243,11 @@ struct VideoStream::Implementation
         // 只复制一次到 GStreamer；ROS 回调不承担内存复制和编码工作。
         GstBuffer *buffer = gst_buffer_new_allocate(nullptr, frame.size_bytes, nullptr);
         gst_buffer_fill(buffer, 0, frame.pixels, frame.size_bytes);
-        gsize offsets[GST_VIDEO_MAX_PLANES]{};
-        gint strides[GST_VIDEO_MAX_PLANES]{config.width * 3, 0, 0, 0};
-        gst_buffer_add_video_meta_full(buffer, GST_VIDEO_FRAME_FLAG_NONE, GST_VIDEO_FORMAT_BGR,
-                                       config.width, config.height, 1, offsets, strides);
+        const gsize y_size = static_cast<gsize>(config.width) * config.height;
+        gsize offsets[GST_VIDEO_MAX_PLANES]{0, y_size, y_size + y_size / 4, 0};
+        gint strides[GST_VIDEO_MAX_PLANES]{config.width, config.width / 2, config.width / 2, 0};
+        gst_buffer_add_video_meta_full(buffer, GST_VIDEO_FRAME_FLAG_NONE, GST_VIDEO_FORMAT_I420,
+                                       config.width, config.height, 3, offsets, strides);
         GstClock *clock = gst_element_get_clock(source);
         const auto base_time = gst_element_get_base_time(source);
         const auto current_time = clock ? gst_clock_get_time(clock) : GST_CLOCK_TIME_NONE;
@@ -331,7 +332,7 @@ void VideoStream::submit_frame(VideoFrame frame)
     auto &implementation = *_implementation;
     if (!implementation.running || !frame.owner || !frame.pixels ||
         frame.size_bytes != static_cast<std::size_t>(implementation.config.width) *
-                                implementation.config.height * 3)
+                                implementation.config.height * 3 / 2)
     {
         return;
     }
